@@ -1,0 +1,19 @@
+# Test street. One character is one 1 m tile; the top row is north.
+# .  grass      -  pavement    =  road      ,  road with centre dashes
+# a  computer shop (has an inside)          b  house       c  flats
+# D  door: walk onto it to go in            @  where you start
+# L  street lamp   T  tree   B  bench
+........................
+.aaaaaa..bbbbbbb..cccc..
+.aaaaaa..bbbbbbb..cccc..
+.aaaaaa..bbbbbbb..cccc..
+.aaaaaa..bbbbbbb..cccc..
+.T.D.....T...D......D.T.
+L---------L-------@---L-
+------------------------
+========================
+,,,,,,,,,,,,,,,,,,,,,,,,
+========================
+------------------------
+L....B.....L....B.....L.
+.T......T.......T....T..

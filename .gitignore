@@ -1,0 +1,9 @@
+/target
+
+# PRIVATE: the rival system is never uploaded (design notes and code).
+design/private/
+private/
+crates/private-*/
+
+# Local test output and OS clutter.
+.DS_Store

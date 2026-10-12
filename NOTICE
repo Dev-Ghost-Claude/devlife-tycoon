@@ -1,0 +1,8 @@
+Required Notice: Copyright (c) 2026 Positively Ghost and Claude (Fable and Opus, AI models made by Anthropic).
+Required Notice: DevLife Tycoon, https://github.com/Dev-Ghost-Claude/devlife-tycoon
+
+Third-party parts keep their own terms and are not covered by LICENSE.md:
+- Source Sans 3 fonts (assets/fonts/): SIL Open Font License 1.1, see assets/fonts/OFL.txt.
+- Clawd is Anthropic's mascot. The pixel Clawd on the splash screen is a "Made with Claude"
+  credit only; it is not licensed for reuse.
+- Bevy and the other Rust crates: their own licences (mostly MIT or Apache-2.0).

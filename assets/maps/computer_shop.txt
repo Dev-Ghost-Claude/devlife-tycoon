@@ -1,0 +1,12 @@
+# Computer shop, inside. Walls stand on the north and west edges (the camera sees in from
+# the south-east). Same one-tile-per-character rules as the street.
+# .  floor     S  shelf of boxed games     C  demo computer on a table
+# K  counter   k  shopkeeper              P  plant
+# D  door out (in the west wall)           @  where you appear
+SSSSSS.SSS
+..........
+.C..C.....
+.......KKK
+D@.....Kk.
+.......K..
+P.........

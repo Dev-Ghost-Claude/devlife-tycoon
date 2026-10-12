@@ -1,0 +1,6 @@
+#!/bin/sh
+# Last check before anything leaves this machine: no private paths in what is tracked.
+if git ls-files | grep -E '(^|/)(private|private-[^/]*)/|RIVALS' ; then
+  echo "pre-push: private files are tracked (listed above); refusing to push." >&2
+  exit 1
+fi

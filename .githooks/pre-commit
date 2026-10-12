@@ -1,0 +1,16 @@
+#!/bin/sh
+# Refuses commits that would publish the private rival system.
+# The rule (2026-10-12): the rivalry system is never uploaded.
+fail=0
+if git diff --cached --name-only | grep -E '(^|/)(private|private-[^/]*)/|RIVALS' ; then
+  echo "pre-commit: refusing to commit files from a private path (listed above)." >&2
+  fail=1
+fi
+# Words that only belong to the rival system's private design.
+# The hooks themselves name the words, so they are left out of this scan.
+if git diff --cached -U0 -- . ':(exclude).githooks' | grep -E '^\+' | grep -v '^+++' | grep -i -E 'ledger|overconfidence|nemesis' ; then
+  echo "pre-commit: staged lines mention rival-system words (listed above)." >&2
+  echo "Move that content to design/private/ or a private crate, or ask the user first." >&2
+  fail=1
+fi
+exit $fail
