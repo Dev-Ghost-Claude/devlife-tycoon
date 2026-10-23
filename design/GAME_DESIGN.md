@@ -71,6 +71,73 @@ The user flagged the bedroom as "graphically bad": it overlapped the house's wal
 - **The desk lamp (user, 2026-10-19):** the player can switch it on and off. Off, the computer's screen is the only light at night; on, the anglepoise throws a warm amber pool over the desk against the cool cyan screen. The art keeps the lamp's glowing bulb as a separate overlay model, so both looks exist.
 - References (2026-10-15, Pinterest and image search): a two-storey isometric house cutaway with the roof kept (dreamstime), a brownstone cut at the corner in its street (Pinterest), a voxel "house doll" with stairs between floors (Virginie Paulus, via Pinterest), voxel rooms with white cut wall tops, attic bedrooms with sloped ceilings.
 
+## The home hub (quiz 2026-10-23)
+
+The user pinned down the home hub before going outside again. The ideas come from the user's Gemini mockups: room actions on objects, a first-person desk view, an OS on screen, overheating and maintenance, physical media, multitasking, packing boxes and preparing for an expo, and a placement grid.
+- **The heart of home is making games.** The PC is the centre, and life is the pressure around it: sleep, food, coffee, heat and money pull you away and set the rhythm of the work. **Pinned for a deeper dig:** the user wants "life as a pressure" worked out in detail.
+- **Sitting at the PC has three layers.** From the isometric room, `[E] Sit` leads to a first-person desk view (hands, media to insert, coffee, the CRT to adjust), and from there to the OS full screen. A key toggles a split view (the room beside the OS), so you can watch the room while something compiles. Full screen is the default.
+- **The OS grows with the eras.** 1978 is a text OS (a BASIC prompt, teletext-style menus, a blinking cursor). Windows arrive in the mid-80s as an upgrade, and a windowed "VoxOS" like the mockup's is a milestone. This keeps "the look tells the history".
+- **Hardware is physical, and that's a core mechanic.** You physically insert media (tapes in 1978, floppies and cartridges later), manage heat and dust, and fit parts by hand from an inventory. Overheating can force a rest or an upgrade, and pouring coolant is a risky fix. It makes the later Silicon Drought hit home, because your machine has to last.
+- **The placement grid (user's idea, quiz 2026-10-23).** Houses, offices and the inside of each computer use one inventory-style grid system. You arrange beds, desks, hardware and later teams to get the most out of the space.
+  - **One system at three scales:** rooms and the house, later offices, and the computer case (CPU, GPU, RAM, power supply, fans), which is where upgrades get fitted. One set of rules and one UI.
+  - **Footprints are shaped like Tetris pieces** (L-shaped desks, a 1×4 RAM stick) and rotate in 90° steps. Space is scarce, so you pack tightly.
+  - **Layouts have four kinds of effect:**
+    - **adjacency buffs**: coder next to artist, a bed next to the noisy PC, RAM next to the power supply;
+    - **radius fields** drawn as overlays that stack: noise, heat, light, later Wi-Fi;
+    - **reach and paths**: animals must be able to walk to the bed, desk and door, and blocked lanes or exits make a layout invalid or cost time;
+    - **room stats** that sum the room up (comfort, focus, stress, heat) and feed sleep quality, work speed and mood.
+  - **Grid mode** opens with a key, shows the overlays, and **pauses time** while you arrange. Moving heavy things may cost a little game time when you leave the mode.
+  - **How placing feels** (from the user's Gemini video):
+    - You drag a ghost outline of the item, valid tiles light green, and it snaps into place.
+    - Each item's fields (noise, Wi-Fi, a fan's airflow cross) grow as a live preview while you hover or drag.
+    - Adjacency effects pop up as a tooltip when you drop the item.
+    - The walking path is checked live: blocked tiles go red with a count, and once the lane is clear a green trail of footprints to the bed shows again.
+  - Mockup ideas to keep: hover warnings ("too close to the door", "can't reach bed!"), an inventory and shop panel with undo, rotate and store, and a case grid showing space used, temperature and compatibility.
+- **Life as pressure (quiz 2026-10-23).** The user: "think of like Punch Club but more interactive and in depth".
+  - **Four needs press on you at home:**
+    - **energy, with sleep debt:** energy drains as you work and sleep refills it, but missed sleep builds a separate debt that one night can't clear;
+    - **hunger:** junk food by the PC is fast and weak, a proper meal is slow and strong;
+    - **stress and mood:** crunch, bugs, rejection and a messy room raise it, while hobbies, people and a nice room lower it, and high stress hurts creativity and decisions;
+    - **money and bills:** rent or board, power (the PC draws it), parts and media, and running out forces odd jobs that take time from the PC.
+  - **Low needs do hidden damage to the work.** Tired or stressed work still looks done, but it plants hidden bugs and bad code ("hallucinating code"), which surface later in testing or after release. Severe neglect also means collapsing at the desk and losing hours.
+  - **Coffee boosts, then crashes, and builds tolerance.** It lends energy now and takes it back later. Daily use makes it weaker and the crash bigger. Later eras add energy drinks.
+  - **No autonomy except emergencies.** You make every choice. At the edge the body takes over: you doze at the keyboard, or the screen blurs from stress. A warning such as "hallucinating code" comes first.
+  - **Household incidents (the user's example).** Things go wrong in the home, such as an electrical short. **Fixing one is a mini-game or puzzle.** Succeed and it's fixed. Fail and your health drops, and you may have to call a technician, which costs money and time.
+  - **Three kinds of incident** (house trouble and pests were left out):
+    - **electrical:** blown fuses and shorts when the PC, lamp and heater share one old circuit;
+    - **machine faults:** overheating, dust, a cassette chewing the tape, disk read errors, a dying power supply. **Saved work is always safe** (user, 2026-10-23): a fault costs time, money or the session's unsaved progress, never what's saved. A chewed tape costs you a new tape, and an overheat loses the last hour;
+    - **family and life:** a dinner call, chores, a curfew, a sibling unplugging the PC mid-save, noise complaints. These are social puzzles, not repairs.
+  - **Incidents come mostly from your choices**, with a little bad luck on top: too much on one circuit (grid placement), no dusting, heat build-up, cables across walking lanes. Smart layout and upkeep prevent most of them, which ties the grid, the hardware and the needs together.
+  - **Health is a separate, slow stat.** Shocks, overwork, junk food and stress wear it down over weeks, and good habits heal it. Low health shrinks your maximum energy and raises the chance of illness and hospital bills.
+  - **Fix-it mini-games are hands-on puzzles** in the first-person view: trace the burnt wire, pick the right fuse rating, re-seat a chip, splice a tape. Skills and knowledge give hints or more time, and tiredness makes your hands shake.
+- **Time and multitasking at home (quiz 2026-10-23).**
+  - **The clock runs live, and actions are timed.** The 24-minute day keeps going. Each action takes game minutes and shows a progress bar (eat about 20 minutes, sleep until morning, code an hour), and fast-forward skips the waiting.
+  - **Background jobs run while you live, and they carry a risk.** Assembling or compiling, loading and saving tapes, copying tapes for sale and printing manuals run while you eat, sleep or fix things. A job left unwatched can fail: an overheat, a tape error, or a sibling pulling the plug. The split view lets you keep an eye on it.
+- **Selling from the bedroom in 1978 is physical home production (quiz 2026-10-23).** You duplicate cassettes on the tape deck, hand-draw or photocopy the inlays, pack the orders, post them, and answer letters and magazine ads. This is the mockup's "pack game boxes for mail", and it scales up later into offices and publishers.
+- **Making a game at the 1978 PC (quiz 2026-10-23).**
+  - **Coding means packing code into the memory grid.** Each feature becomes shaped code blocks, and you fit them into the machine's memory map (for example 16 KB) on the same Tetris grid as rooms and the PC case. Optimisation skill reshapes blocks smaller, so clever packing is literally optimisation. **The user's condition: it must not be so complex that players don't know what to do.** It should be readable at a glance, guided early on, and the depth should come later.
+  - **A magazine type-in teaches the grid (quiz 2026-10-23).** Real 1978 magazines printed BASIC listings for readers to type in. Your first "game" is one of these: its blocks come pre-shaped, the magazine page shows where they go, and you learn by copying, then change one feature yourself. **The magazine stays with you as a guidebook** (the user's addition). You can call it up at any time during a coding puzzle, and the game auto-pauses while it's open.
+  - **A block shows its name, icon and colour, with numbers on hover.** Each block says what it is in plain words ("Jump", "Score", "Beep"), with an icon and a colour per discipline (code, graphics, sound). Its size is its memory cost. Exact bytes, bug risk and speed show only on hover.
+  - **Auto-pack is decent but not the best.** It always finds a working layout but wastes some space. Packing by hand frees memory for an extra feature or polish.
+  - **When features don't fit, there are always three clear ways out:** cut a feature, optimise a block (spend work time and skill to make it smaller), or get more memory (a RAM upgrade in the case grid, which costs money).
+- **Room progression (quiz 2026-10-23).**
+  - **You earn rooms, then move out.** You start in the bedroom. You win the garage or basement from your parents (with trust, rent or chores), later rent your own flat, then take the first office. Each step is a bigger grid with its own quirks: the garage is cold and dusty, and the flat has neighbours who hear the noise.
+  - **Rooms have a floor grid and a wall grid.** The floor holds furniture. The wall holds shelves, posters, wiring and wall lamps, and its items have effects too (posters for mood, shelves for storage). Space-savers such as a loft bed or a folding desk free up floor tiles.
+  - **Furniture and gear come from three places:** new from shops (reliable and pricey, sold in the city by era), second-hand (cheap, from classified ads, garage sales and the dump, and sometimes worn or faulty, which feeds the incidents), and hand-me-downs from family and friends (tied to trust). You don't build furniture yourself.
+  - **Moving day is a packing puzzle.** Your belongings must fit the cargo grid of a borrowed car or van, and whatever doesn't fit is sold, stored or left behind.
+- **Family and the parents' house (quiz 2026-10-23).**
+  - **The family is fixed:** the same written family every life, with deep, hand-written characters. The starting home is still random (2026-10-11), so this family is the one you get when you start with your parents. Who is in it is still to be written.
+  - **The cast: the corner-shop family (user's pick, 2026-10-23).** Your parents run the corner shop downstairs. Chores mean minding the till: customers, gossip, and early sales of your tapes off the counter. Dad sees the business in your hobby, and Mum wants grades first. The family pet is a **lizard that basks on the warm monitor**. The original idea was a cat, but cats are people in this world, so a creature outside the cast takes its place. **The family is mixed-species** (blended, Zootopia-style). **The parents' species are random per life** (the user's answer, "random"), while their roles, names and personalities stay fixed and hand-written. Names and personalities are still to be written. **Knock-on change:** the house's ground floor becomes the shop (a shop front on the street, with the family living around it), which changes the house built on 2026-10-13.
+  - **Trust is one household meter.** It is a single "family trust" number, simple and clear, and it gates the garage, hand-me-downs, and how lenient your parents are.
+  - **House rules can be bent, but you can get caught.** The rules: lights out at 10, homework first, dinner at 6, and chores. You can break them, for example by coding after lights out. Whether you're caught depends on your layout: screen light under the door, and the keyboard's noise radius (the grid's fields). Getting caught costs trust.
+  - **Parents give, take away and demand.**
+    - **They give:** pocket money, hand-me-downs, rides into the city, job connections, a word with the shop owner.
+    - **They take away:** grounding, cutting pocket money, confiscating the PC for a few days, banning you from the garage.
+    - **They demand:** grades, chores, and family time (dinner, visiting Grandma), which cost hours but build trust.
+  - **Bugs are found three ways:** self-test bug hunts (playing your own build in a test mode, where tired code hides more bugs), playtesters (family, friends, the café: uneven reports in their own words), and after release (angry letters, magazine reviews, returns you pay for, and a fixed tape you may post).
+  - **Saving is safe.** Saving and loading tapes always works and just takes a moment, so saved work is never lost. Machine faults can only cost unsaved progress, time or money.
+  - **The first game is small and limited by the machine:** a text adventure, a simple arcade game, a sports or maths game, or strategy, all bounded by memory and speed. You write a one-page design (genre, hook, features) in the OS before coding. Bigger genres unlock with knowledge and better machines.
+
 ## Facial expressions (quiz 2026-10-13)
 
 - **Eyes and brows only, no mouth** (a mouth risks the uncanny look the user rejected). Expressions change the eye shapes (dots, arcs, lines, wide eyes) and add small brows.
