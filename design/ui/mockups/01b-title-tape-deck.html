@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>01b Title: the tape deck</title>
+<meta name="viewport" content="width=1330">
+<style>@font-face{font-family:"Source Sans 3";font-weight:600;font-style:normal;src:url("../../../assets/fonts/SourceSans3-Semibold.ttf") format("truetype"),local("Source Sans 3 Semibold"),local("SourceSans3-Semibold");}
+@font-face{font-family:"Source Sans 3";font-weight:700;font-style:normal;src:url("../../../assets/fonts/SourceSans3-Bold.ttf") format("truetype"),local("Source Sans 3 Bold"),local("SourceSans3-Bold");}
+/* ===== DEVLIFE TYCOON  UI mockup base  (bedroom-era skin "Beige") =====
+   Palette: 16 fixed colours, like a home computer. Every colour on screen comes from this list.
+   Size unit: 1 canvas pixel (640x360) = 2 CSS px in this 1280x720 frame. All sizes below are whole canvas pixels.
+   Spacing scale (CSS px): 4 8 12 16 24 32 48 64 96.  Type scale: 14 16 20 24 30 36 48.  Weights: 600 and 700 only.
+   Depth: light from above. Raised = light top edge + hard shadow below. Inset = dark top edge. No blur anywhere. */
+:root{
+  --void:#1C1714; --ink:#2B2420; --umber:#52463D; --taupe:#6B5F55; --clay:#B8AE96; --putty:#D4CAB0; --plastic:#E8E0CC; --cream:#F5F1EA;
+  --rust-d:#8A3A22; --rust:#A84E33; --salmon:#E09A78; --mustard:#D9A93A; --moss:#6B9148; --denim:#35618A; --sky:#9FC7D8; --night:#232B4A;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px; --s9:96px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#120E0C}
+body{min-height:100vh;color:var(--putty);font:600 16px/24px "Source Sans 3","Source Sans Pro",system-ui,-apple-system,"Helvetica Neue",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--sky);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+.stage{width:1280px;margin:0 auto;padding:24px 0 48px}
+.stage:target{padding:0}.stage:target .meta,.stage:target .notes{display:none}
+.meta{display:flex;justify-content:space-between;align-items:baseline;gap:24px;margin-bottom:12px}
+.meta h1{font:700 20px/28px "Source Sans 3",sans-serif;color:var(--cream)}
+.meta p{font:600 14px/20px "Source Sans 3",sans-serif;color:var(--clay);max-width:640px;text-align:right}
+.frame{width:1280px;height:720px;position:relative;overflow:hidden;background:var(--void);color:var(--ink);box-shadow:0 0 0 2px #3A302A;font-variant-numeric:tabular-nums}
+.notes{margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;font:600 14px/20px "Source Sans 3",sans-serif;color:var(--putty)}
+.notes h2{font:700 14px/20px "Source Sans 3",sans-serif;color:var(--cream);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.notes ul{list-style:none} .notes li{padding-left:12px;position:relative;margin-bottom:4px} .notes li::before{content:"";position:absolute;left:0;top:8px;width:4px;height:4px;background:var(--mustard)}
+.abs{position:absolute} .fill{position:absolute;inset:0}
+.row{display:flex;align-items:center} .col{display:flex;flex-direction:column}
+.g4{gap:4px}.g8{gap:8px}.g12{gap:12px}.g16{gap:16px}.g24{gap:24px}
+img,i.px{image-rendering:pixelated}
+
+/* ---- type ---- */
+.t14{font-size:14px;line-height:20px}.t16{font-size:16px;line-height:24px}.t20{font-size:20px;line-height:28px}.t24{font-size:24px;line-height:32px}
+.t30{font-size:30px;line-height:36px}.t36{font-size:36px;line-height:40px}.t48{font-size:48px;line-height:48px}
+.b{font-weight:700}.mut{color:var(--taupe)}.caps{text-transform:uppercase;letter-spacing:.08em}
+
+/* ---- depth (hard shadows only) ---- */
+.e1{box-shadow:0 2px 0 var(--ink)} .e2{box-shadow:0 4px 0 var(--ink)} .e3{box-shadow:0 6px 0 var(--ink)}
+.panel{background:var(--plastic);border:2px solid var(--ink);box-shadow:inset 0 2px 0 var(--cream),inset 0 -2px 0 var(--putty),0 4px 0 var(--ink);color:var(--ink)}
+.panel.modal{box-shadow:inset 0 2px 0 var(--cream),inset 0 -2px 0 var(--putty),0 6px 0 var(--ink)}
+.well{background:var(--cream);border:2px solid var(--ink);box-shadow:inset 0 2px 0 var(--putty)}
+.dark{background:var(--ink);border:2px solid var(--ink);color:var(--cream)}
+.chip{display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 8px;background:var(--cream);border:2px solid var(--ink);box-shadow:inset 0 2px 0 var(--putty);font-size:14px;line-height:1;font-weight:700;color:var(--ink);white-space:nowrap}
+.key{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;padding:0 8px;background:var(--cream);color:var(--ink);border:2px solid var(--ink);box-shadow:0 2px 0 var(--ink);font-size:14px;line-height:1;font-weight:700}
+
+/* ---- buttons: a pyramid. primary = rust, secondary = plastic, tertiary = underlined text ---- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 24px;border:2px solid var(--ink);background:var(--plastic);color:var(--ink);
+  box-shadow:inset 0 2px 0 var(--cream),inset 0 -2px 0 var(--putty),0 2px 0 var(--ink);font-weight:700;font-size:20px;line-height:1;white-space:nowrap}
+.btn.primary{background:var(--rust);color:var(--cream);box-shadow:inset 0 2px 0 var(--salmon),inset 0 -4px 0 var(--rust-d),0 2px 0 var(--ink)}
+.btn.danger{background:var(--rust-d);color:var(--cream);box-shadow:inset 0 2px 0 var(--rust),inset 0 -4px 0 var(--ink),0 2px 0 var(--ink)}
+.btn.sm{height:32px;padding:0 12px;font-size:16px}
+.btn.block{display:flex;width:100%}
+.btn.pressed{box-shadow:inset 0 2px 0 var(--putty),0 0 0 var(--ink);transform:translateY(2px)}
+.btn.tertiary{height:auto;padding:4px 0;border:0;background:none;box-shadow:none;color:var(--ink);font-weight:700;font-size:16px;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;text-decoration-color:var(--taupe)}
+.focus{outline:2px solid var(--ink);outline-offset:4px}
+.focus-dark{outline:2px solid var(--mustard);outline-offset:4px}
+
+/* ---- meters: lit LED segments in a dark well. count is the signal, colour is a bonus ---- */
+.seg{display:inline-flex;gap:2px;padding:4px;background:var(--ink);border:2px solid var(--ink);box-shadow:0 2px 0 var(--cream)}
+.seg i{display:block;width:10px;height:16px;background:var(--umber)} .seg i.on{background:var(--moss)}
+.seg.low i.on{background:var(--salmon)}
+.seg i.ghost{background:repeating-conic-gradient(var(--salmon) 0 25%,var(--umber) 0 50%) 0 0/4px 4px}
+.pip{display:inline-block;width:8px;height:8px;background:var(--umber)} .pip.on{background:var(--denim)}
+
+/* ---- dithered glitch glyphs, used in storyteller text ---- */
+.blk{display:inline-block;width:.5em;height:.78em;margin:0 2px;vertical-align:-.06em}
+.p0{width:260px;height:164px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIIAAABSCAYAAACYPQzSAAACp0lEQVR42u2dsUrDUBRAb4KjIn5ApZRiwY6FbE5ODk7WUX9C6EcIfkXBQevk4NSpm+BYQSlS7Cr4CXWQV9LQJk2al7yXd87U2BAv957ed5O0xJMQ7WZ9LuAM48nUU6+9sASvb69kxyGCTrCQwacTuI2qvUcngKAT/HcEgFgRRsOBjIYDslQBkmpJRwAREdmJe/PktCsiIs9XZ2TKYs77L4ta0hEAEQARABEAESDfswbF988vmUIEkev7BzLF0gCIAIgAiACIAIgAiACACIAIgAiACIAIgAiACIAIgAiACIAIgAiACIAIgAiACIAIgAiACIAIIKb89nHv4JBM0REAEYClQSeto2MyH8PH57sbIuzv7WaXqFFbn8CvGRbZJELeAkT3QYiKzgibSLDN/mBBR8ha1FajVlhnWBWjbV3Jr6IERXWGVqO29n/EvYcIJRRRVzE2Pa4tMlgzLEbpPz4tXl9dXpQuaVw8RS5TlRIh7lMUTnj0b+uE0FmILPEgguT7+BlFkY8iWidpUjymdwXfxuUgnPTw9qpPp0vxcK8BEAEcFEENX9E1WG0XPZyZFo+Tw2JZz6r8+JqtHBiT4uH0Mcdkhz9laa4j6CxClngQQUMBTBE1Lh4b7jsYOyPklTxdRdj0uLbcfDK6I8QtEWUWYZOYbLv7aPzSkFWGNIVIe/wqfvHFihkhiwxp9ucbTRYNi6pYVWzLiGDQuo8I4s7FIChYhNFwQGY1kvTkd2OuI+gIFPTmlruPoFcEuoJdOaUjgP6zhpPT7laD403vdmn77raX6/42xaW7w/pJ0z9nANUgqZa+zesas0FBSwNFdEcmr92sz4u40scSY243CDqB7IwnUy/oBHMRLv26hvr9xXgy9Xz1glnBzW6gar8kQLtZn5N+dwg3gD/ZNfvymo2fZAAAAABJRU5ErkJggg==) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:block;flex:none;}
+.p1{width:28px;height:28px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAANElEQVR42mP4+vHVfwYcgImBgYHh68dX/7EpYkLmoCtixGcsCzZBbn4xRgxJmCCKPbiMBQDrfhsZA1ibLwAAAABJRU5ErkJggg==) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p2{width:32px;height:28px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAHCAYAAAA1WQxeAAAANUlEQVR42mNgQALaKgr/0flM+CQZGBgYmPBJMjAwMDCiS6IDpqt3HjAiC6DzmbAJovPx+gIAqocXMJQswkIAAAAASUVORK5CYII=) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p3{width:28px;height:28px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAANklEQVR42mNkgIIuK6X/MHbZsXuMDAwMDEzoEsh8RnQJZMDEgAfgl4RZjg7Kjt1jZEJ2HbprAU4fEiggmi7TAAAAAElFTkSuQmCC) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p4{width:21px;height:21px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAANUlEQVR42mNggAJtFYX/yDQDAwMDI7oADFy984CRCVni6p0HjOgmYeiE8RnRdRJtJwM+1wIAv2obdqE0M+4AAAAASUVORK5CYII=) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p5{width:21px;height:21px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAJklEQVR42mNgQALaKgr/kflM6BLICpiw6YDxGdEliAZ4dTLh0woAOC0KCzsk33MAAAAASUVORK5CYII=) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p6{width:14px;height:14px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAANElEQVR42mNgQAI71k37j8xnQpdAVsCETQeMz4gugWKsR1AWIzYJj6AsRiYYA10CQzW6FQBg7hj7SOLzdAAAAABJRU5ErkJggg==) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:block;flex:none;}
+.p7{width:20px;height:20px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAV0lEQVR42mNgwAO0VRT+a6so/GcgpGj+8Rv/5x+/8V9bReE/Ey5FJYt3oIgxEaMIQyE2RT2xHgxX7zxgZCJGEdxEQooYGBgYmHC5CR2woJsCA8imkRSwAFaPMZmp+3/2AAAAAElFTkSuQmCC) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.d25i{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAD0lEQVR42mPQVlH4z4AMABT/AW98pQM3AAAAAElFTkSuQmCC) 0 0/4px 4px;image-rendering:pixelated}.flipx{transform:scaleX(-1)}
+
+.dk{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px;padding-bottom:12px;background:var(--plastic);border:2px solid var(--ink);
+  box-shadow:inset 0 2px 0 var(--cream),inset 0 -4px 0 var(--putty),0 4px 0 var(--ink);color:var(--ink);font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;line-height:16px}
+.dk.primary{background:var(--rust);color:var(--cream);box-shadow:inset 0 2px 0 var(--salmon),inset 0 -6px 0 var(--rust-d),0 4px 0 var(--ink)}
+.grille{background:repeating-linear-gradient(to bottom,var(--ink) 0 4px,var(--umber) 4px 8px)}
+</style></head>
+<body><main class="stage" id="frame">
+<header class="meta"><div><h1>01b Title: the tape deck</h1><a href="index.html">All mockups</a></div><p>Concept B. Flat and buildable now. The life on a cassette is also the save model: one tape per life.</p></header>
+<div class="frame">
+
+<div class="fill d25i"></div>
+<div class="abs" style="left:0;right:0;top:564px;bottom:0;background:var(--umber);border-top:4px solid var(--taupe);box-shadow:inset 0 8px 0 var(--ink)"></div>
+<div class="abs col" style="left:0;right:0;top:52px;align-items:center;gap:12px">
+  <div class="t48 b caps" style="letter-spacing:.16em;color:var(--cream);text-shadow:0 4px 0 var(--rust)">DevLife Tycoon</div>
+  <div class="t20 row g12" style="color:var(--putty)"><span class="row g8" style="width:64px"><i style="display:block;flex:1;height:2px;background:var(--clay)"></i><i class="p6 " style="" role="img" aria-label="dia-clay"></i></span><span>Side A. One life. No rewinding.</span><span class="row g8" style="width:64px"><i style="display:block;flex:1;height:2px;background:var(--clay)"></i><i class="p6 " style="" role="img" aria-label="dia-clay"></i></span></div>
+</div>
+<div class="abs" style="left:200px;top:204px;width:880px;height:380px;background:var(--plastic);border:2px solid var(--ink);box-shadow:inset 0 4px 0 var(--cream),inset 0 -4px 0 var(--putty),0 8px 0 var(--ink)">
+  <!-- counter well: the life on this tape -->
+  <div class="abs col" style="left:32px;top:36px;width:232px;height:176px;background:var(--void);border:2px solid var(--ink);box-shadow:0 2px 0 var(--cream);padding:16px;justify-content:space-between">
+    <div class="col"><span class="t14 b caps" style="color:var(--clay)">Tape 1 · Side A</span><span class="b" style="font-size:48px;line-height:56px;color:var(--mustard)">212</span><span class="t14 b caps" style="color:var(--clay)">days played</span></div>
+    <div class="row g8"><i class="p7 " aria-hidden="true"></i><span class="t14 b caps" style="color:var(--sky)">Back again?</span></div>
+  </div>
+  <!-- the tape itself -->
+  <div class="abs" style="left:292px;top:28px;width:296px;height:192px;background:var(--ink);box-shadow:inset 0 4px 0 var(--void),0 2px 0 var(--cream)"></div>
+  <div class="abs" style="left:310px;top:42px"><i class="p0 " style="" role="img" aria-label="cassette"></i></div>
+  <div class="abs col" style="left:330px;top:80px;width:222px;gap:0"><span class="t16 b">Fox · Day 212</span><span class="t14 mut">Mon 12 Sep 1979</span></div>
+  <div class="abs grille" style="left:616px;top:36px;width:232px;height:176px;border:2px solid var(--ink);box-shadow:0 2px 0 var(--cream)"></div>
+  <!-- keys -->
+  <span class="dk" style="left:32px;top:252px;width:136px;height:88px"><i class="p2 " aria-hidden="true"></i><span>Hall of fame</span></span>
+  <span class="dk primary focus" style="left:184px;top:236px;width:176px;height:104px"><i class="p1 " aria-hidden="true"></i><span style="font-size:16px">Continue</span></span>
+  <span class="dk" style="left:376px;top:252px;width:136px;height:88px"><i class="p3 " aria-hidden="true"></i><span>New life</span></span>
+  <span class="dk" style="left:648px;top:268px;width:92px;height:72px"><i class="p4 " aria-hidden="true"></i><span>Settings</span></span>
+  <span class="dk" style="left:756px;top:268px;width:92px;height:72px"><i class="p5 " aria-hidden="true"></i><span>Quit</span></span>
+</div>
+<div class="abs row" style="left:24px;right:24px;bottom:16px;justify-content:space-between;color:var(--putty)"><span class="t14">Made with Claude</span><span class="t14">v0.1 · early build</span></div>
+
+</div>
+<footer class="notes">
+<div><h2>Idea</h2><ul>
+<li>Your life is a cassette. Continue plays it. New life records a new one. Hall of fame rewinds through old tapes.</li>
+<li>The deck is flat UI: cheap to build, and it fits the beige era.</li>
+<li>The counter shows the days of this life. The display whispers when the Game Master greets you again.</li></ul></div>
+<div><h2>Input</h2><ul>
+<li>Mouse: click a key. Keyboard: Left and Right move focus, Enter presses, Esc does nothing.</li>
+<li>Primary: Continue. With no tape in the deck, Continue is gone and New life becomes the primary.</li>
+<li>Later eras swap the deck: CD player, console, phone lock screen.</li></ul></div>
+<div><h2>Rules used</h2><ul>
+<li>13 One primary key, larger and rust. Others are plastic. Settings and Quit are smaller still.</li>
+<li>36 Raised keys: light top edge, dark base. The counter well is inset.</li>
+<li>27 Caps get extra tracking. 21 One font family, two weights.</li>
+<li>14 Space first: the deck uses 880 of 1280 px.</li></ul></div></footer>
+</main></body></html>

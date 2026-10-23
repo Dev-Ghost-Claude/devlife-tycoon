@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>DevLife Tycoon UI mockups</title><meta name="viewport" content="width=1330">
+<style>@font-face{font-family:"Source Sans 3";font-weight:600;font-style:normal;src:url("../../../assets/fonts/SourceSans3-Semibold.ttf") format("truetype"),local("Source Sans 3 Semibold"),local("SourceSans3-Semibold");}
+@font-face{font-family:"Source Sans 3";font-weight:700;font-style:normal;src:url("../../../assets/fonts/SourceSans3-Bold.ttf") format("truetype"),local("Source Sans 3 Bold"),local("SourceSans3-Bold");}
+/* ===== DEVLIFE TYCOON  UI mockup base  (bedroom-era skin "Beige") =====
+   Palette: 16 fixed colours, like a home computer. Every colour on screen comes from this list.
+   Size unit: 1 canvas pixel (640x360) = 2 CSS px in this 1280x720 frame. All sizes below are whole canvas pixels.
+   Spacing scale (CSS px): 4 8 12 16 24 32 48 64 96.  Type scale: 14 16 20 24 30 36 48.  Weights: 600 and 700 only.
+   Depth: light from above. Raised = light top edge + hard shadow below. Inset = dark top edge. No blur anywhere. */
+:root{
+  --void:#1C1714; --ink:#2B2420; --umber:#52463D; --taupe:#6B5F55; --clay:#B8AE96; --putty:#D4CAB0; --plastic:#E8E0CC; --cream:#F5F1EA;
+  --rust-d:#8A3A22; --rust:#A84E33; --salmon:#E09A78; --mustard:#D9A93A; --moss:#6B9148; --denim:#35618A; --sky:#9FC7D8; --night:#232B4A;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px; --s9:96px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#120E0C}
+body{min-height:100vh;color:var(--putty);font:600 16px/24px "Source Sans 3","Source Sans Pro",system-ui,-apple-system,"Helvetica Neue",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--sky);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+.stage{width:1280px;margin:0 auto;padding:24px 0 48px}
+.stage:target{padding:0}.stage:target .meta,.stage:target .notes{display:none}
+.meta{display:flex;justify-content:space-between;align-items:baseline;gap:24px;margin-bottom:12px}
+.meta h1{font:700 20px/28px "Source Sans 3",sans-serif;color:var(--cream)}
+.meta p{font:600 14px/20px "Source Sans 3",sans-serif;color:var(--clay);max-width:640px;text-align:right}
+.frame{width:1280px;height:720px;position:relative;overflow:hidden;background:var(--void);color:var(--ink);box-shadow:0 0 0 2px #3A302A;font-variant-numeric:tabular-nums}
+.notes{margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;font:600 14px/20px "Source Sans 3",sans-serif;color:var(--putty)}
+.notes h2{font:700 14px/20px "Source Sans 3",sans-serif;color:var(--cream);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.notes ul{list-style:none} .notes li{padding-left:12px;position:relative;margin-bottom:4px} .notes li::before{content:"";position:absolute;left:0;top:8px;width:4px;height:4px;background:var(--mustard)}
+.abs{position:absolute} .fill{position:absolute;inset:0}
+.row{display:flex;align-items:center} .col{display:flex;flex-direction:column}
+.g4{gap:4px}.g8{gap:8px}.g12{gap:12px}.g16{gap:16px}.g24{gap:24px}
+img,i.px{image-rendering:pixelated}
+
+/* ---- type ---- */
+.t14{font-size:14px;line-height:20px}.t16{font-size:16px;line-height:24px}.t20{font-size:20px;line-height:28px}.t24{font-size:24px;line-height:32px}
+.t30{font-size:30px;line-height:36px}.t36{font-size:36px;line-height:40px}.t48{font-size:48px;line-height:48px}
+.b{font-weight:700}.mut{color:var(--taupe)}.caps{text-transform:uppercase;letter-spacing:.08em}
+
+/* ---- depth (hard shadows only) ---- */
+.e1{box-shadow:0 2px 0 var(--ink)} .e2{box-shadow:0 4px 0 var(--ink)} .e3{box-shadow:0 6px 0 var(--ink)}
+.panel{background:var(--plastic);border:2px solid var(--ink);box-shadow:inset 0 2px 0 var(--cream),inset 0 -2px 0 var(--putty),0 4px 0 var(--ink);color:var(--ink)}
+.panel.modal{box-shadow:inset 0 2px 0 var(--cream),inset 0 -2px 0 var(--putty),0 6px 0 var(--ink)}
+.well{background:var(--cream);border:2px solid var(--ink);box-shadow:inset 0 2px 0 var(--putty)}
+.dark{background:var(--ink);border:2px solid var(--ink);color:var(--cream)}
+.chip{display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 8px;background:var(--cream);border:2px solid var(--ink);box-shadow:inset 0 2px 0 var(--putty);font-size:14px;line-height:1;font-weight:700;color:var(--ink);white-space:nowrap}
+.key{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;padding:0 8px;background:var(--cream);color:var(--ink);border:2px solid var(--ink);box-shadow:0 2px 0 var(--ink);font-size:14px;line-height:1;font-weight:700}
+
+/* ---- buttons: a pyramid. primary = rust, secondary = plastic, tertiary = underlined text ---- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 24px;border:2px solid var(--ink);background:var(--plastic);color:var(--ink);
+  box-shadow:inset 0 2px 0 var(--cream),inset 0 -2px 0 var(--putty),0 2px 0 var(--ink);font-weight:700;font-size:20px;line-height:1;white-space:nowrap}
+.btn.primary{background:var(--rust);color:var(--cream);box-shadow:inset 0 2px 0 var(--salmon),inset 0 -4px 0 var(--rust-d),0 2px 0 var(--ink)}
+.btn.danger{background:var(--rust-d);color:var(--cream);box-shadow:inset 0 2px 0 var(--rust),inset 0 -4px 0 var(--ink),0 2px 0 var(--ink)}
+.btn.sm{height:32px;padding:0 12px;font-size:16px}
+.btn.block{display:flex;width:100%}
+.btn.pressed{box-shadow:inset 0 2px 0 var(--putty),0 0 0 var(--ink);transform:translateY(2px)}
+.btn.tertiary{height:auto;padding:4px 0;border:0;background:none;box-shadow:none;color:var(--ink);font-weight:700;font-size:16px;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;text-decoration-color:var(--taupe)}
+.focus{outline:2px solid var(--ink);outline-offset:4px}
+.focus-dark{outline:2px solid var(--mustard);outline-offset:4px}
+
+/* ---- meters: lit LED segments in a dark well. count is the signal, colour is a bonus ---- */
+.seg{display:inline-flex;gap:2px;padding:4px;background:var(--ink);border:2px solid var(--ink);box-shadow:0 2px 0 var(--cream)}
+.seg i{display:block;width:10px;height:16px;background:var(--umber)} .seg i.on{background:var(--moss)}
+.seg.low i.on{background:var(--salmon)}
+.seg i.ghost{background:repeating-conic-gradient(var(--salmon) 0 25%,var(--umber) 0 50%) 0 0/4px 4px}
+.pip{display:inline-block;width:8px;height:8px;background:var(--umber)} .pip.on{background:var(--denim)}
+
+/* ---- dithered glitch glyphs, used in storyteller text ---- */
+.blk{display:inline-block;width:.5em;height:.78em;margin:0 2px;vertical-align:-.06em}
+
+.wrap{width:1280px;margin:0 auto;padding:48px 0 96px}
+h1{font:700 36px/40px "Source Sans 3",sans-serif;color:var(--cream)}
+.lead{font:600 16px/24px "Source Sans 3",sans-serif;color:var(--putty);max-width:640px;margin-top:12px}
+.how{display:flex;gap:32px;margin-top:24px;font:600 14px/20px "Source Sans 3",sans-serif;color:var(--clay)}
+.how b{color:var(--cream)}
+h2.sec{font:700 14px/20px "Source Sans 3",sans-serif;color:var(--cream);text-transform:uppercase;letter-spacing:.08em;margin:48px 0 16px;padding-bottom:8px;border-bottom:2px solid #3A302A}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{display:block;text-decoration:none;color:inherit}
+.thumb{position:relative;width:410px;height:231px;overflow:hidden;background:var(--void);box-shadow:0 0 0 2px #3A302A,0 4px 0 #0A0807}
+.thumb iframe{position:absolute;left:0;top:0;width:1280px;height:720px;border:0;transform:scale(.3203);transform-origin:0 0;pointer-events:none}
+.card:hover .thumb,.card:focus-visible .thumb{box-shadow:0 0 0 2px var(--mustard),0 4px 0 #0A0807}
+.card h3{font:700 16px/24px "Source Sans 3",sans-serif;color:var(--cream);margin-top:12px}
+.card p{font:600 14px/20px "Source Sans 3",sans-serif;color:var(--clay);margin-top:4px;max-width:410px}
+.foot{margin-top:64px;font:600 14px/20px "Source Sans 3",sans-serif;color:var(--clay);max-width:760px}
+code{font:600 14px/20px ui-monospace,Menlo,monospace;color:var(--putty)}
+</style></head><body><div class="wrap">
+<h1>DevLife Tycoon: UI mockups</h1>
+<p class="lead">Revision 2. It starts the talk; it is not final. Each page is one screen at 1280 by 720, which is the 640 by 360 game canvas at 2x. Read <a href="../UI_PROPOSAL.md">UI_PROPOSAL.md</a> for the screen map and the open questions.</p>
+<div class="how"><span><b>Era:</b> bedroom (beige plastic, 16 fixed colours)</span><span><b>Type:</b> Source Sans 3, Semibold and Bold</span><span><b>Pixels:</b> 1 canvas pixel = 2 CSS px</span></div>
+<h2 class="sec">Boot and menus</h2><div class="grid"><a class="card" href="01a-title-window.html"><div class="thumb"><iframe src="01a-title-window.html#frame" title="01a Title: the window at night" loading="lazy" tabindex="-1"></iframe></div><h3>01a Title: the window at night</h3><p>Concept A. The bedroom is the menu: desk is Continue, bed is New life, shelf is Hall of fame.</p></a><a class="card" href="01b-title-tape-deck.html"><div class="thumb"><iframe src="01b-title-tape-deck.html#frame" title="01b Title: the tape deck" loading="lazy" tabindex="-1"></iframe></div><h3>01b Title: the tape deck</h3><p>Concept B. A flat cassette deck with transport keys. Your life is the tape.</p></a></div><h2 class="sec">New life</h2><div class="grid"><a class="card" href="02-new-life-storyteller.html"><div class="thumb"><iframe src="02-new-life-storyteller.html#frame" title="02 New life: choose a Game Master" loading="lazy" tabindex="-1"></iframe></div><h3>02 New life: choose a Game Master</h3><p>Pick one animal narrator who weaves your story, then set the cruelty slider.</p></a><a class="card" href="03-new-life-the-deal.html"><div class="thumb"><iframe src="03-new-life-the-deal.html#frame" title="03 New life: the deal (the board)" loading="lazy" tabindex="-1"></iframe></div><h3>03 New life: the deal (the board)</h3><p>The Game Master pins your random hand to the wall and weaves one red thread through it.</p></a><a class="card" href="03b-new-life-the-deal-reading.html"><div class="thumb"><iframe src="03b-new-life-the-deal-reading.html#frame" title="03b New life: the deal (alternative)" loading="lazy" tabindex="-1"></iframe></div><h3>03b New life: the deal (alternative)</h3><p>An alternative: a candle-lit reading, three tall cards, the Game Master looming behind.</p></a></div><h2 class="sec">In the world</h2><div class="grid"><a class="card" href="04-hud-street.html"><div class="thumb"><iframe src="04-hud-street.html#frame" title="04 HUD in the street" loading="lazy" tabindex="-1"></iframe></div><h3>04 HUD in the street</h3><p>Bedroom-era HUD: time, stamina and money always; knowledge and hints on demand.</p></a><a class="card" href="05-pause-menu.html"><div class="thumb"><iframe src="05-pause-menu.html#frame" title="05 Pause menu" loading="lazy" tabindex="-1"></iframe></div><h3>05 Pause menu</h3><p>Esc menu. One big button: Resume. The life is already saved.</p></a><a class="card" href="06-storyteller-cryptic.html"><div class="thumb"><iframe src="06-storyteller-cryptic.html#frame" title="06 Game Master box" loading="lazy" tabindex="-1"></iframe></div><h3>06 Game Master box</h3><p>Old Rook speaks, cold and half garbled. The chill ladder shows how the box turns.</p></a><a class="card" href="08-scene-pick.html"><div class="thumb"><iframe src="08-scene-pick.html#frame" title="08 Scene pick" loading="lazy" tabindex="-1"></iframe></div><h3>08 Scene pick</h3><p>A key moment: three actions with sure costs and gates, and no odds.</p></a></div><h2 class="sec">Sheets, devices and news</h2><div class="grid"><a class="card" href="12-character-sheet.html"><div class="thumb"><iframe src="12-character-sheet.html#frame" title="12 Character sheet and journal" loading="lazy" tabindex="-1"></iframe></div><h3>12 Character sheet and journal</h3><p>A 1978 ring binder with colour tabs: skills, status marks, a detail card, a map inset.</p></a><a class="card" href="07-home-computer.html"><div class="thumb"><iframe src="07-home-computer.html#frame" title="07 Home computer" loading="lazy" tabindex="-1"></iframe></div><h3>07 Home computer</h3><p>Era-styled device: beige monitor, a page service, one primary action.</p></a><a class="card" href="09-morning-paper.html"><div class="thumb"><iframe src="09-morning-paper.html#frame" title="09 The morning paper" loading="lazy" tabindex="-1"></iframe></div><h3>09 The morning paper</h3><p>A folded, worn 1978 local paper: masthead, halftone photo, ads, classifieds, your pen marks.</p></a></div><h2 class="sec">The end</h2><div class="grid"><a class="card" href="10-post-mortem.html"><div class="thumb"><iframe src="10-post-mortem.html#frame" title="10 Post-mortem replay" loading="lazy" tabindex="-1"></iframe></div><h3>10 Post-mortem replay</h3><p>After a game over: the life as a tape, with choices and omens seen or missed.</p></a><a class="card" href="11-legacy-obituary.html"><div class="thumb"><iframe src="11-legacy-obituary.html#frame" title="11 Legacy and obituary" loading="lazy" tabindex="-1"></iframe></div><h3>11 Legacy and obituary</h3><p>A black-paper album: the epithet, the games, the people, a film strip of the eras. Continue as the heir.</p></a></div>
+<p class="foot">If the type looks wrong when you open a file from disk, your browser blocked the font files in <code>assets/fonts</code>. Serve the game folder instead: run <code>python3 -m http.server</code> in <code>bevy-game</code> and open <code>/design/ui/mockups/index.html</code>.</p>
+</div></body></html>

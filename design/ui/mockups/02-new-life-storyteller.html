@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>02 New life: choose a Game Master</title>
+<meta name="viewport" content="width=1330">
+<style>@font-face{font-family:"Source Sans 3";font-weight:600;font-style:normal;src:url("../../../assets/fonts/SourceSans3-Semibold.ttf") format("truetype"),local("Source Sans 3 Semibold"),local("SourceSans3-Semibold");}
+@font-face{font-family:"Source Sans 3";font-weight:700;font-style:normal;src:url("../../../assets/fonts/SourceSans3-Bold.ttf") format("truetype"),local("Source Sans 3 Bold"),local("SourceSans3-Bold");}
+/* ===== DEVLIFE TYCOON  UI mockup base  (bedroom-era skin "Beige") =====
+   Palette: 16 fixed colours, like a home computer. Every colour on screen comes from this list.
+   Size unit: 1 canvas pixel (640x360) = 2 CSS px in this 1280x720 frame. All sizes below are whole canvas pixels.
+   Spacing scale (CSS px): 4 8 12 16 24 32 48 64 96.  Type scale: 14 16 20 24 30 36 48.  Weights: 600 and 700 only.
+   Depth: light from above. Raised = light top edge + hard shadow below. Inset = dark top edge. No blur anywhere. */
+:root{
+  --void:#1C1714; --ink:#2B2420; --umber:#52463D; --taupe:#6B5F55; --clay:#B8AE96; --putty:#D4CAB0; --plastic:#E8E0CC; --cream:#F5F1EA;
+  --rust-d:#8A3A22; --rust:#A84E33; --salmon:#E09A78; --mustard:#D9A93A; --moss:#6B9148; --denim:#35618A; --sky:#9FC7D8; --night:#232B4A;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px; --s9:96px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#120E0C}
+body{min-height:100vh;color:var(--putty);font:600 16px/24px "Source Sans 3","Source Sans Pro",system-ui,-apple-system,"Helvetica Neue",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--sky);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+.stage{width:1280px;margin:0 auto;padding:24px 0 48px}
+.stage:target{padding:0}.stage:target .meta,.stage:target .notes{display:none}
+.meta{display:flex;justify-content:space-between;align-items:baseline;gap:24px;margin-bottom:12px}
+.meta h1{font:700 20px/28px "Source Sans 3",sans-serif;color:var(--cream)}
+.meta p{font:600 14px/20px "Source Sans 3",sans-serif;color:var(--clay);max-width:640px;text-align:right}
+.frame{width:1280px;height:720px;position:relative;overflow:hidden;background:var(--void);color:var(--ink);box-shadow:0 0 0 2px #3A302A;font-variant-numeric:tabular-nums}
+.notes{margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;font:600 14px/20px "Source Sans 3",sans-serif;color:var(--putty)}
+.notes h2{font:700 14px/20px "Source Sans 3",sans-serif;color:var(--cream);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.notes ul{list-style:none} .notes li{padding-left:12px;position:relative;margin-bottom:4px} .notes li::before{content:"";position:absolute;left:0;top:8px;width:4px;height:4px;background:var(--mustard)}
+.abs{position:absolute} .fill{position:absolute;inset:0}
+.row{display:flex;align-items:center} .col{display:flex;flex-direction:column}
+.g4{gap:4px}.g8{gap:8px}.g12{gap:12px}.g16{gap:16px}.g24{gap:24px}
+img,i.px{image-rendering:pixelated}
+
+/* ---- type ---- */
+.t14{font-size:14px;line-height:20px}.t16{font-size:16px;line-height:24px}.t20{font-size:20px;line-height:28px}.t24{font-size:24px;line-height:32px}
+.t30{font-size:30px;line-height:36px}.t36{font-size:36px;line-height:40px}.t48{font-size:48px;line-height:48px}
+.b{font-weight:700}.mut{color:var(--taupe)}.caps{text-transform:uppercase;letter-spacing:.08em}
+
+/* ---- depth (hard shadows only) ---- */
+.e1{box-shadow:0 2px 0 var(--ink)} .e2{box-shadow:0 4px 0 var(--ink)} .e3{box-shadow:0 6px 0 var(--ink)}
+.panel{background:var(--plastic);border:2px solid var(--ink);box-shadow:inset 0 2px 0 var(--cream),inset 0 -2px 0 var(--putty),0 4px 0 var(--ink);color:var(--ink)}
+.panel.modal{box-shadow:inset 0 2px 0 var(--cream),inset 0 -2px 0 var(--putty),0 6px 0 var(--ink)}
+.well{background:var(--cream);border:2px solid var(--ink);box-shadow:inset 0 2px 0 var(--putty)}
+.dark{background:var(--ink);border:2px solid var(--ink);color:var(--cream)}
+.chip{display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 8px;background:var(--cream);border:2px solid var(--ink);box-shadow:inset 0 2px 0 var(--putty);font-size:14px;line-height:1;font-weight:700;color:var(--ink);white-space:nowrap}
+.key{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;padding:0 8px;background:var(--cream);color:var(--ink);border:2px solid var(--ink);box-shadow:0 2px 0 var(--ink);font-size:14px;line-height:1;font-weight:700}
+
+/* ---- buttons: a pyramid. primary = rust, secondary = plastic, tertiary = underlined text ---- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 24px;border:2px solid var(--ink);background:var(--plastic);color:var(--ink);
+  box-shadow:inset 0 2px 0 var(--cream),inset 0 -2px 0 var(--putty),0 2px 0 var(--ink);font-weight:700;font-size:20px;line-height:1;white-space:nowrap}
+.btn.primary{background:var(--rust);color:var(--cream);box-shadow:inset 0 2px 0 var(--salmon),inset 0 -4px 0 var(--rust-d),0 2px 0 var(--ink)}
+.btn.danger{background:var(--rust-d);color:var(--cream);box-shadow:inset 0 2px 0 var(--rust),inset 0 -4px 0 var(--ink),0 2px 0 var(--ink)}
+.btn.sm{height:32px;padding:0 12px;font-size:16px}
+.btn.block{display:flex;width:100%}
+.btn.pressed{box-shadow:inset 0 2px 0 var(--putty),0 0 0 var(--ink);transform:translateY(2px)}
+.btn.tertiary{height:auto;padding:4px 0;border:0;background:none;box-shadow:none;color:var(--ink);font-weight:700;font-size:16px;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;text-decoration-color:var(--taupe)}
+.focus{outline:2px solid var(--ink);outline-offset:4px}
+.focus-dark{outline:2px solid var(--mustard);outline-offset:4px}
+
+/* ---- meters: lit LED segments in a dark well. count is the signal, colour is a bonus ---- */
+.seg{display:inline-flex;gap:2px;padding:4px;background:var(--ink);border:2px solid var(--ink);box-shadow:0 2px 0 var(--cream)}
+.seg i{display:block;width:10px;height:16px;background:var(--umber)} .seg i.on{background:var(--moss)}
+.seg.low i.on{background:var(--salmon)}
+.seg i.ghost{background:repeating-conic-gradient(var(--salmon) 0 25%,var(--umber) 0 50%) 0 0/4px 4px}
+.pip{display:inline-block;width:8px;height:8px;background:var(--umber)} .pip.on{background:var(--denim)}
+
+/* ---- dithered glitch glyphs, used in storyteller text ---- */
+.blk{display:inline-block;width:.5em;height:.78em;margin:0 2px;vertical-align:-.06em}
+.p0{width:120px;height:120px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAACP0lEQVR42u2YMUjDQBSG35VCioviKA4dOqXgInQQBEeVCtLJRXAQBLsZyWLrYHUJbbc6SIeWTi5FtGpHpw6BLgWLg0MHcaggjuliXLzQpE1yl7ukFXxT73pcvvvfvXfvDuDfpsDisaju19yIB5gmiBAZdE3/Pb/20EQB47Gorgmi0Z5PrMGn+mS0eQEjr6od15pweXVrgnKyyKDrCRLRgs2sHhJD8YBEXtzJYrSQoSDhvFiI52SRQXckOKymCSJVWkI06mXKRTjfP3IELCjySH862wAAgIfTL9g8m6NydZh0JfOJNUc4AICCIkM62xhRsfTbjyEBAFInjC62qkcTuWpbhXt5x2hLsgKlXNI0pn6xAPFYVHdzd9iPjf1xXSQaV79YwGrqdgk9HEQkumUBDLq4fgOJ5YQ+DBki3X9B2FtzG9S2aopyxDv/lXJJIyCsfThASCx18u4PIAaySzPczmLeJ0gplwRJVvhWM35AdvJ5orHV/jc8v/ZQIFFMA1ftf5vSDQqyWLCDxFDj8iDiUT3TRPfB7IutWhOvB7GCJGCeKmoWyOEo5lqw8oCLDLogycrYUmziFXWnVQFNEKGgyCDJCr87yfCd1/pBWlta2TNdRZldjFXTBJFLoYAXhedkKvmdXGqn3t3uhvF7q/boqKL1Yu+mZiioG5x1caRqOgZJplxk2nvc32ZIFKQFtbqW9iKPvB5ndqBuQOPmdYJErPuv06q4QrE8hzC/LLDCBfr04RvgpB+InNLN31Bwmu0HkIxA9dQMlMQAAAAASUVORK5CYII=) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:block;flex:none;}
+.p1{width:120px;height:120px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAABvElEQVR42u1YO46DMBAdWz4F4iq0HICOCyD6tFGKKG3aFeICdGjLFS3d1nsEK9dwmnjlTeyB8UewUtxMEfx4eW9mjAfgP6+qLNRu31GVhfr5/lQpSVZlob7GD/QdHAOQ8gbnyyGJklVZqKatIc8z9DmB/Zjn2S9JAFAAAOM0sxiWanJS3ugEq7JQ58sBpLz9IfkAU74kbbh5nkHT1k5cjtlrgphgPpa7yOlIzkEbiC/JJXKYzYKq4LMtWF7qP7FEDlNQ+ChoknyAW9U0C2EpuhbzsSNV7LvhxQ3uY2+quLpItiDnsvmtYFQFtywQV3/le7HXZTPfi719N1ht3o2CTVtb+6CgKth3A6w9vqj70SJZWyChSmP7bR/HnGpvaK4u7UdzMFSBGPtRgntUUPh+YoVUK6UPCjMpt27SWkHNaZxmxvfQpJ9bkNlZGHa3CLXTh5S5xmlmIiapvhvI+83nbWRfjjp9Jvq2kJhKLlq89jizga9V8nS8ohYz16RpDTkNbiNDObM1ju36ykIu2zHi6XhF5z2MOuiJXb1Lcx5GHZWluv8GEaSOMXxyLZhgaCH5zhZZ6vly6MDzvULXHaBIYIBN9tLLAAAAAElFTkSuQmCC) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:block;flex:none;}
+.p2{width:120px;height:120px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAABkUlEQVR42u1YO27DMAylDZ0i8FW69gDZfAHDe1fDQ9HVe5ALZMsBuvYqRq7hLpWhuBQ/Em0jgLnQiM2XJ5IiKQEccsghpBSxF+f3t8k/379/Cus/luK7mGHT1lBVJxjHBwDAZEVUi++Wxp9fHzCOj9m4qk4zGABMOSRT8MslyNI41BaixXfh6kK3Y7pp66dVhnkUk/BbLf6/EFPGXofEsHAh309a/GgOcsY+DJwnQu0Xcb3cxPjRMiMJw5r6erkBu0n2IoeFFy3UWJ3awnOxOkh2ki1IYmElQ7x1LjZtTZarck9yEpIO+5HLFUn909qrQkyBS+ul1l5EkApvbini7GNhFtdBbcdJsRflIJXIuRtB2+ZeopOo5sG19Ut60Fl5sO+GGSO1TrIE/3piUifJXWSsJ5eaTiIY15N3u/jY6b2YEqbUxfXdEJ1oypTTF5WDfTeY5J7ZPIgNAJ6s1J6aBwvuoL3m6MWRYwmuSVJCTkRQew6W5qr0CqXIvfixOBiZEUzxqNZjJgSxOz7ubuaQveQXQafSm5ULS6sAAAAASUVORK5CYII=) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:block;flex:none;}
+.p3{width:14px;height:14px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAALklEQVR42mP8+vHVfwY0wM0vxoguxoBNIU4JRpgEN78YI4YCXEZhFUcWZMSnGgCuNyKtj5jn7AAAAABJRU5ErkJggg==) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p4{width:14px;height:12px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAGCAYAAAAPDoR2AAAAL0lEQVR42mNgwAG+fnz1nwmXBCoDSQImxoSsAEZz84sxMjAwMDCi64ZJYLcHCQAA9E8irzLhayQAAAAASUVORK5CYII=) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p5{width:20px;height:20px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAV0lEQVR42mNgwAO0VRT+a6so/GcgpGj+8Rv/5x+/8V9bReE/Ey5FJYt3oIgxEaMIQyE2RT2xHgxX7zxgZCJGEdxEQooYGBgYmHC5CR2woJsCA8imkRSwAFaPMZmp+3/2AAAAAElFTkSuQmCC) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p6{width:10px;height:14px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAHCAYAAADAp4fuAAAAMklEQVR42mP4+vHVfwY0wMTAwMCALsEEYyBLMCGrgEmgCHLzizGiCMIEGLBZwsDAwAAAt+wTeHKueewAAAAASUVORK5CYII=) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p7{width:18px;height:18px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAYElEQVR42mNkQALaKgr/Yeyrdx4wwtgsyArWtUrBNQRVM/xHVsigraLw/+ZKq//aKgpwDOMzMDAwMDEQARjRrUEHQdXPME2S8diAoZAo6zAUPdkRgOkm9PBBB1fvPGAEAGf+IzNe5W9IAAAAAElFTkSuQmCC) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.d25v{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAD0lEQVR42mOQERf5z4AMABJ8AUfEx4nwAAAAAElFTkSuQmCC) 0 0/4px 4px;image-rendering:pixelated}.flipx{transform:scaleX(-1)}
+
+.step{display:block;width:48px;height:6px;background:var(--umber)} .step.on{background:var(--mustard)}
+.dim{color:var(--clay)}
+.sqm{height:16px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAAMklEQVR42mNgoAa4udLq/82VVv8ZGBgYGPEpwi+AZhJcDTZBbJoZsZmqHn6MkSiHUwQAQmMngoR8Tf4AAAAASUVORK5CYII=) 0 0/20px 16px repeat-x;image-rendering:pixelated}
+.card{position:absolute;width:336px;height:336px;padding:0;overflow:hidden;top:168px}
+.card .bar{height:8px;background:var(--clay)}
+.card.on .bar{background:var(--rust)}
+.card.on{transform:translateY(-8px);box-shadow:inset 0 2px 0 var(--cream),inset 0 -2px 0 var(--putty),0 8px 0 var(--ink)}
+.card.sleep{background:var(--putty);box-shadow:inset 0 -2px 0 var(--clay),0 4px 0 var(--ink)}
+.card .in{padding:16px 24px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.card .ribbon{position:absolute;left:0;right:0;bottom:0;height:28px;background:var(--umber);color:var(--cream);display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.track{position:absolute;left:0;top:14px;width:480px;height:6px;background:var(--umber)}
+.stop{position:absolute;top:10px;width:14px;height:14px;background:var(--clay);border:2px solid var(--ink)}
+.knobv{position:absolute;top:0;width:24px;height:34px;background:var(--plastic);border:2px solid var(--ink);box-shadow:inset 0 2px 0 var(--cream),inset 0 -4px 0 var(--putty),0 2px 0 var(--void)}
+.knobv::after{content:"";position:absolute;left:8px;top:8px;width:4px;height:14px;background:var(--ink)}
+.slbl{position:absolute;top:42px;width:96px;margin-left:-48px;text-align:center}
+.desc{max-width:272px}
+</style></head>
+<body><main class="stage" id="frame">
+<header class="meta"><div><h1>02 New life: choose a Game Master</h1><a href="index.html">All mockups</a></div><p>Step 1 of 3. The first and strongest choice in the game. One Game Master is awake. The difficulty slider is separate from the theme.</p></header>
+<div class="frame">
+
+<div class="fill d25v" style="background-color:var(--ink)"></div>
+<div class="abs row g16" style="left:124px;top:20px"><span class="col g8"><i class="step on"></i><span class="t14 b caps" style="color:var(--cream)">1 Game Master</span></span><span class="col g8"><i class="step "></i><span class="t14 b caps" style="color:var(--clay)">2 Background</span></span><span class="col g8"><i class="step "></i><span class="t14 b caps" style="color:var(--clay)">3 The deal</span></span></div>
+<span class="abs btn tertiary" style="right:124px;top:20px;color:var(--cream);text-decoration-color:var(--clay)">Back <span class="key" style="margin-left:8px">Esc</span></span>
+<div class="abs col g8" style="left:124px;top:64px">
+  <h2 class="t36 b" style="color:var(--cream)">Choose a Game Master</h2><div class="abs sqm" style="left:0;top:41px;width:220px"></div>
+  <div class="t16" style="color:var(--putty);margin-top:12px">They are your narrators, they weave your story. Choose carefully.</div>
+</div>
+
+<div class="panel card on focus-dark" style="left:124px">
+  <div class="bar"></div>
+  <div class="in">
+    <div class="well" style="position:relative;width:140px;height:140px;padding:8px;background:var(--night);box-shadow:none;overflow:hidden"><i class="p0 " style="" role="img" aria-label="rook"></i></div>
+    <span class="t24 b">Old Rook</span>
+    <span class="chip">Rivals and politics</span>
+    <span class="t16 desc">Weaves your story from favours owed and doors left ajar. Every thread ends at someone's table.</span>
+  </div>
+  <span class="abs row" style="right:12px;top:20px;width:32px;height:32px;background:var(--rust);border:2px solid var(--ink);justify-content:center"><i class="p4 " aria-hidden="true"></i></span>
+</div>
+<div class="panel card sleep" style="left:484px">
+  <div class="bar"></div>
+  <div class="in">
+    <div class="well" style="position:relative;width:140px;height:140px;padding:8px;background:var(--plastic);box-shadow:none;overflow:hidden"><i class="p1 " style="" role="img" aria-label="cat-asleep"></i><span class="ribbon"><i class="p3 " aria-hidden="true"></i>Asleep</span></div>
+    <span class="t24 b" style="color:var(--umber)">Marmalade</span>
+    <span class="chip" style="background:var(--plastic);color:var(--umber)">Life drama</span>
+    <span class="t16 desc" style="color:var(--umber)">Weaves your story from birthdays, goodbyes and the call you forgot to make.</span>
+  </div>
+</div>
+<div class="panel card sleep" style="left:844px">
+  <div class="bar"></div>
+  <div class="in">
+    <div class="well" style="position:relative;width:140px;height:140px;padding:8px;background:var(--plastic);box-shadow:none;overflow:hidden"><i class="p2 " style="" role="img" aria-label="ferret-asleep"></i><span class="ribbon"><i class="p3 " aria-hidden="true"></i>Asleep</span></div>
+    <span class="t24 b" style="color:var(--umber)">Tick</span>
+    <span class="chip" style="background:var(--plastic);color:var(--umber)">Market chaos</span>
+    <span class="t16 desc" style="color:var(--umber)">Weaves your story into the ticker tape. Booms, busts, and very bad timing.</span>
+  </div>
+</div>
+
+<div class="abs row g12" style="left:124px;top:524px;width:1056px;height:56px;background:var(--night);border:2px solid var(--sky);padding:0 24px;justify-content:space-between">
+  <div class="row g12"><i class="p5 " aria-hidden="true"></i><span class="t20" style="color:var(--cream)">"Pull any thread you like. I hold the other end."</span></div>
+  <span class="t14 b caps" style="color:var(--sky)">Old Rook</span>
+</div>
+
+<div class="abs" style="left:124px;top:604px;width:700px;height:80px">
+  <div class="abs col" style="left:0;top:0;width:128px"><span class="t20 b" style="color:var(--cream)">How cruel?</span></div>
+  <div class="abs" style="left:152px;top:0;width:480px;height:80px">
+    <div class="track"></div>
+    <i class="stop" style="left:-7px"></i><i class="stop" style="left:153px"></i><i class="stop" style="left:313px"></i><i class="stop" style="left:473px"></i>
+    <div class="knobv" style="left:148px"></div>
+    <span class="slbl t14 b" style="left:0;color:var(--clay)">Gentle</span><span class="slbl t14 b" style="left:160px;color:var(--cream)">Fair</span><span class="slbl t14 b" style="left:320px;color:var(--clay)">Harsh</span><span class="slbl t14 b" style="left:480px;color:var(--clay)">Merciless</span>
+  </div>
+</div>
+<div class="abs t16" style="left:124px;top:684px;color:var(--putty)">Fair: no mercy, no tricks. A careful life can win.</div>
+<span class="abs btn primary" style="right:124px;top:604px;height:56px;width:260px;font-size:20px">Next: Background <i class="p6 " aria-hidden="true"></i></span>
+<span class="abs row g8 t14" style="right:124px;top:672px;color:var(--putty)"><i class="p7 " aria-hidden="true"></i><span>Locked for the whole life.</span></span>
+
+</div>
+<footer class="notes">
+<div><h2>What it does</h2><ul>
+<li>Step 1 of 3. Pick one Game Master, then set a separate cruelty slider.</li>
+<li>Mouse: click a card, drag the knob. Keys: Left and Right pick a card, Up and Down move the slider, Enter goes on.</li>
+<li>The first build ships with one awake card. The layout already holds three.</li></ul></div>
+<div><h2>Wording</h2><ul>
+<li>Each Game Master is a narrator who weaves your story. The card text and the quote speak in that voice.</li>
+<li>The lock notice moved next to the button, where the choice is made: "Locked for the whole life."</li>
+<li>The quote is cold on purpose. It shows how the chosen Game Master will sound.</li></ul></div>
+<div><h2>Rules used</h2><ul>
+<li>6 Hierarchy: the chosen card is raised, has a rust top bar and a check. Asleep cards drop to putty.</li>
+<li>9 Quiet the rest: asleep cards use dithered silhouettes, a ribbon and muted text.</li>
+<li>46 Accent border: rust bar on the chosen card.</li>
+<li>35 Not colour alone: chosen = lift + bar + check.</li></ul></div></footer>
+</main></body></html>

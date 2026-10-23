@@ -1,19 +1,36 @@
-# Test street. One character is one 1 m tile; the top row is north.
-# .  grass      -  pavement    =  road      ,  road with centre dashes
-# a  computer shop (has an inside)          b  house       c  flats
-# D  door: walk onto it to go in            @  where you start
-# L  street lamp   T  tree   B  bench
-........................
-.aaaaaa..bbbbbbb..cccc..
-.aaaaaa..bbbbbbb..cccc..
-.aaaaaa..bbbbbbb..cccc..
-.aaaaaa..bbbbbbb..cccc..
-.T.D.....T...D......D.T.
-L---------L-------@---L-
-------------------------
-========================
-,,,,,,,,,,,,,,,,,,,,,,,,
-========================
-------------------------
-L....B.....L....B.....L.
-.T......T.......T....T..
+# Main street, 1978. One character is one 1 m tile; the top row is north.
+# Ground:   .  grass     -  pavement     p  parking lane     =  road lane     z  zebra crossing
+#           g  front garden lawn         w  garden wall      o  garden path    f  flower bed
+# Buildings: a  computer shop (has an inside)     b  your house     c  flats
+#           D  door: walk onto it to go in       @  where you start
+# Things:   L  street lamp   Z  crossing beacon   P  post box   K  phone booth   S  bus stop
+#           B  bench   Y  hydrant   N  newspaper box   U  litter bin   T  tree
+#           M  parked car (M is its west end; the m tiles are the rest of it)
+...............bbbbbb...................
+.T..........T..bbbbbb..T.............T..
+...............bbbbbb...................
+...cccccccc....bbbbbb.....aaaaaaaa......
+...cccccccc....bbbbbb.....aaaaaaaa......
+...cccccccc....bbbbbb.....aaaaaaaa......
+...cccccccc...gffDfffg....aaaaaaaa......
+...cccccccc...gggogggg....aaaaaaaa......
+...cccccccc...wwwowwww....aaaaaaaa......
+------D----------------K-----D----------
+--------N--P-----@----------------------
+--L---------L-Y---Z---Z-L-U---------L---
+pppMmmmppMmmmppppppzzzpppppMmmmppppppppp
+pppppppppppppppppppzzzpppppppppppppppppp
+===================zzz==================
+===================zzz==================
+===================zzz==================
+===================zzz==================
+===================zzz==================
+===================zzz==================
+ppppppMmmmpppppppppzzzppMmmmpppppMmmmppp
+pppppppppppppppppppzzzpppppppppppppppppp
+-------L----------Z---Z-------L---------
+---------U--B------------------S----B---
+----------------------------------------
+........................................
+.T....T......T..........T.........T...T.
+........................................

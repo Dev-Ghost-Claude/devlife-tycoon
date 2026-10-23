@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>10 Post-mortem replay</title>
+<meta name="viewport" content="width=1330">
+<style>@font-face{font-family:"Source Sans 3";font-weight:600;font-style:normal;src:url("../../../assets/fonts/SourceSans3-Semibold.ttf") format("truetype"),local("Source Sans 3 Semibold"),local("SourceSans3-Semibold");}
+@font-face{font-family:"Source Sans 3";font-weight:700;font-style:normal;src:url("../../../assets/fonts/SourceSans3-Bold.ttf") format("truetype"),local("Source Sans 3 Bold"),local("SourceSans3-Bold");}
+/* ===== DEVLIFE TYCOON  UI mockup base  (bedroom-era skin "Beige") =====
+   Palette: 16 fixed colours, like a home computer. Every colour on screen comes from this list.
+   Size unit: 1 canvas pixel (640x360) = 2 CSS px in this 1280x720 frame. All sizes below are whole canvas pixels.
+   Spacing scale (CSS px): 4 8 12 16 24 32 48 64 96.  Type scale: 14 16 20 24 30 36 48.  Weights: 600 and 700 only.
+   Depth: light from above. Raised = light top edge + hard shadow below. Inset = dark top edge. No blur anywhere. */
+:root{
+  --void:#1C1714; --ink:#2B2420; --umber:#52463D; --taupe:#6B5F55; --clay:#B8AE96; --putty:#D4CAB0; --plastic:#E8E0CC; --cream:#F5F1EA;
+  --rust-d:#8A3A22; --rust:#A84E33; --salmon:#E09A78; --mustard:#D9A93A; --moss:#6B9148; --denim:#35618A; --sky:#9FC7D8; --night:#232B4A;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px; --s9:96px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#120E0C}
+body{min-height:100vh;color:var(--putty);font:600 16px/24px "Source Sans 3","Source Sans Pro",system-ui,-apple-system,"Helvetica Neue",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--sky);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+.stage{width:1280px;margin:0 auto;padding:24px 0 48px}
+.stage:target{padding:0}.stage:target .meta,.stage:target .notes{display:none}
+.meta{display:flex;justify-content:space-between;align-items:baseline;gap:24px;margin-bottom:12px}
+.meta h1{font:700 20px/28px "Source Sans 3",sans-serif;color:var(--cream)}
+.meta p{font:600 14px/20px "Source Sans 3",sans-serif;color:var(--clay);max-width:640px;text-align:right}
+.frame{width:1280px;height:720px;position:relative;overflow:hidden;background:var(--void);color:var(--ink);box-shadow:0 0 0 2px #3A302A;font-variant-numeric:tabular-nums}
+.notes{margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;font:600 14px/20px "Source Sans 3",sans-serif;color:var(--putty)}
+.notes h2{font:700 14px/20px "Source Sans 3",sans-serif;color:var(--cream);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.notes ul{list-style:none} .notes li{padding-left:12px;position:relative;margin-bottom:4px} .notes li::before{content:"";position:absolute;left:0;top:8px;width:4px;height:4px;background:var(--mustard)}
+.abs{position:absolute} .fill{position:absolute;inset:0}
+.row{display:flex;align-items:center} .col{display:flex;flex-direction:column}
+.g4{gap:4px}.g8{gap:8px}.g12{gap:12px}.g16{gap:16px}.g24{gap:24px}
+img,i.px{image-rendering:pixelated}
+
+/* ---- type ---- */
+.t14{font-size:14px;line-height:20px}.t16{font-size:16px;line-height:24px}.t20{font-size:20px;line-height:28px}.t24{font-size:24px;line-height:32px}
+.t30{font-size:30px;line-height:36px}.t36{font-size:36px;line-height:40px}.t48{font-size:48px;line-height:48px}
+.b{font-weight:700}.mut{color:var(--taupe)}.caps{text-transform:uppercase;letter-spacing:.08em}
+
+/* ---- depth (hard shadows only) ---- */
+.e1{box-shadow:0 2px 0 var(--ink)} .e2{box-shadow:0 4px 0 var(--ink)} .e3{box-shadow:0 6px 0 var(--ink)}
+.panel{background:var(--plastic);border:2px solid var(--ink);box-shadow:inset 0 2px 0 var(--cream),inset 0 -2px 0 var(--putty),0 4px 0 var(--ink);color:var(--ink)}
+.panel.modal{box-shadow:inset 0 2px 0 var(--cream),inset 0 -2px 0 var(--putty),0 6px 0 var(--ink)}
+.well{background:var(--cream);border:2px solid var(--ink);box-shadow:inset 0 2px 0 var(--putty)}
+.dark{background:var(--ink);border:2px solid var(--ink);color:var(--cream)}
+.chip{display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 8px;background:var(--cream);border:2px solid var(--ink);box-shadow:inset 0 2px 0 var(--putty);font-size:14px;line-height:1;font-weight:700;color:var(--ink);white-space:nowrap}
+.key{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;padding:0 8px;background:var(--cream);color:var(--ink);border:2px solid var(--ink);box-shadow:0 2px 0 var(--ink);font-size:14px;line-height:1;font-weight:700}
+
+/* ---- buttons: a pyramid. primary = rust, secondary = plastic, tertiary = underlined text ---- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 24px;border:2px solid var(--ink);background:var(--plastic);color:var(--ink);
+  box-shadow:inset 0 2px 0 var(--cream),inset 0 -2px 0 var(--putty),0 2px 0 var(--ink);font-weight:700;font-size:20px;line-height:1;white-space:nowrap}
+.btn.primary{background:var(--rust);color:var(--cream);box-shadow:inset 0 2px 0 var(--salmon),inset 0 -4px 0 var(--rust-d),0 2px 0 var(--ink)}
+.btn.danger{background:var(--rust-d);color:var(--cream);box-shadow:inset 0 2px 0 var(--rust),inset 0 -4px 0 var(--ink),0 2px 0 var(--ink)}
+.btn.sm{height:32px;padding:0 12px;font-size:16px}
+.btn.block{display:flex;width:100%}
+.btn.pressed{box-shadow:inset 0 2px 0 var(--putty),0 0 0 var(--ink);transform:translateY(2px)}
+.btn.tertiary{height:auto;padding:4px 0;border:0;background:none;box-shadow:none;color:var(--ink);font-weight:700;font-size:16px;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;text-decoration-color:var(--taupe)}
+.focus{outline:2px solid var(--ink);outline-offset:4px}
+.focus-dark{outline:2px solid var(--mustard);outline-offset:4px}
+
+/* ---- meters: lit LED segments in a dark well. count is the signal, colour is a bonus ---- */
+.seg{display:inline-flex;gap:2px;padding:4px;background:var(--ink);border:2px solid var(--ink);box-shadow:0 2px 0 var(--cream)}
+.seg i{display:block;width:10px;height:16px;background:var(--umber)} .seg i.on{background:var(--moss)}
+.seg.low i.on{background:var(--salmon)}
+.seg i.ghost{background:repeating-conic-gradient(var(--salmon) 0 25%,var(--umber) 0 50%) 0 0/4px 4px}
+.pip{display:inline-block;width:8px;height:8px;background:var(--umber)} .pip.on{background:var(--denim)}
+
+/* ---- dithered glitch glyphs, used in storyteller text ---- */
+.blk{display:inline-block;width:.5em;height:.78em;margin:0 2px;vertical-align:-.06em}
+.p0{width:27px;height:27px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAg0lEQVR42mNkQALaKgr/Yeyrdx4wwtgsyArWtUrBNQRVM/xHVsigraLw/+ZKq/9fP776//Xjq/83V1r9v7nS6j/MZEaYCTIeGxgYGBgYnuwIQHYBQ1D1M4R16JLIgOnqnQeMQdXPsEoGVT9juHrnASMTzCfoCmEKMHTCPIAcFFgBNgUAFO0/RsKzuw8AAAAASUVORK5CYII=) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p1{width:30px;height:30px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAV0lEQVR42mNgwAO0VRT+a6so/GcgpGj+8Rv/5x+/8V9bReE/Ey5FJYt3oIgxEaMIQyE2RT2xHgxX7zxgZCJGEdxEQooYGBgYmHC5CR2woJsCA8imkRSwAFaPMZmp+3/2AAAAAElFTkSuQmCC) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p2{width:30px;height:30px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAATElEQVR42mNgwAPmH7/xf/7xG/8ZCClS1vb6r6zt9X/+8Rv/mXApakkpQhFjIkYRXuuQraWNIiai3MTAwMCCzKmZ0wdnJ1pqMJIVsADCe01XkJZJ4QAAAABJRU5ErkJggg==) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p3{width:14px;height:14px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAANElEQVR42mNgQAI71k37j8xnQpdAVsCETQeMz4gugWKsR1AWIzYJj6AsRiYYA10CQzW6FQBg7hj7SOLzdAAAAABJRU5ErkJggg==) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:block;flex:none;}
+.p4{width:18px;height:18px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAg0lEQVR42mNkQALaKgr/Yeyrdx4wwtgsyArWtUrBNQRVM/xHVsigraLw/+ZKq/9fP776//Xjq/83V1r9v7nS6j/MZEaYCTIeGxgYGBgYnuwIQHYBQ1D1M4R16JLIgOnqnQeMQdXPsEoGVT9juHrnASMTzCfoCmEKMHTCPIAcFFgBNgUAFO0/RsKzuw8AAAAASUVORK5CYII=) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p5{width:20px;height:20px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAV0lEQVR42mNgwAO0VRT+a6so/GcgpGj+8Rv/5x+/8V9bReE/Ey5FJYt3oIgxEaMIQyE2RT2xHgxX7zxgZCJGEdxEQooYGBgYmHC5CR2woJsCA8imkRSwAFaPMZmp+3/2AAAAAElFTkSuQmCC) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p6{width:20px;height:20px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAATElEQVR42mNgwAPmH7/xf/7xG/8ZCClS1vb6r6zt9X/+8Rv/mXApakkpQhFjIkYRXuuQraWNIiai3MTAwMCCzKmZ0wdnJ1pqMJIVsADCe01XkJZJ4QAAAABJRU5ErkJggg==) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p7{width:16px;height:14px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAHCAYAAAA1WQxeAAAANUlEQVR42mNgQALaKgr/0flM+CQZGBgYmPBJMjAwMDCiS6IDpqt3HjAiC6DzmbAJovPx+gIAqocXMJQswkIAAAAASUVORK5CYII=) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p8{width:14px;height:14px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAM0lEQVR42mPQVlH4z4ADMDEwMDBoqyj8x6aICZmDrogRn7Es2ASv3nnAiCEJE0SxB5exAEU+DzRci4hgAAAAAElFTkSuQmCC) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p9{width:16px;height:14px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAHCAYAAAA1WQxeAAAANElEQVR42mPQVlH4z4AE0PlM2ASR+Uy4dML4jOgS6IAJmXP1zgNGdD4TPkkGQg5kYGBgAACc5xcwK8THCAAAAABJRU5ErkJggg==) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.d25v{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAD0lEQVR42mOQERf5z4AMABJ8AUfEx4nwAAAAAElFTkSuQmCC) 0 0/4px 4px;image-rendering:pixelated}.flipx{transform:scaleX(-1)}
+
+.tape{position:absolute;left:96px;top:300px;width:1088px;height:28px;background:var(--umber);border:2px solid var(--ink);box-shadow:0 2px 0 var(--taupe)}
+.tick{position:absolute;top:332px;width:2px;height:8px;background:var(--clay)}
+.yr{position:absolute;top:344px;width:48px;margin-left:-24px;text-align:center;color:var(--clay)}
+.mk{position:absolute;top:244px;width:32px;margin-left:-16px;display:flex;flex-direction:column;align-items:center}
+.mk i.stem{display:block;width:2px;height:20px;background:var(--clay);margin-top:0}
+.play{position:absolute;top:224px;width:4px;height:116px;background:var(--mustard);margin-left:-2px}
+</style></head>
+<body><main class="stage" id="frame">
+<header class="meta"><div><h1>10 Post-mortem replay</h1><a href="index.html">All mockups</a></div><p>The life as a tape. It reveals the poison trail but never all details. The Game Master speaks last.</p></header>
+<div class="frame">
+
+<div class="fill d25v" style="background-color:var(--ink)"></div>
+<div class="abs col g8" style="left:96px;top:40px"><span class="t14 b caps" style="color:var(--clay)">Fenn Marrow · fox · age 41</span><h2 class="t36 b" style="color:var(--cream)">What happened</h2><span style="color:var(--clay)"><span class="row g8" style="width:280px"><i style="display:block;flex:1;height:2px;background:var(--clay)"></i><i class="p3 " style="" role="img" aria-label="dia-clay"></i></span></span><span class="t16" style="color:var(--putty)">Your studio went bankrupt on day 9,131. This is the road there.</span></div>
+<div class="abs row g16" style="right:96px;top:56px;color:var(--putty)"><span class="row g8 t14"><i class="p4 " aria-hidden="true"></i> A choice</span><span class="row g8 t14"><i class="p5 " aria-hidden="true"></i> An omen you saw</span><span class="row g8 t14"><i class="p6 " aria-hidden="true"></i> An omen you missed</span></div>
+<div class="tape"></div>
+<i class="tick" style="left:96px"></i><i class="tick" style="left:140px"></i><i class="tick" style="left:183px"></i><i class="tick" style="left:227px"></i><i class="tick" style="left:270px"></i><i class="tick" style="left:314px"></i><i class="tick" style="left:357px"></i><i class="tick" style="left:401px"></i><i class="tick" style="left:444px"></i><i class="tick" style="left:488px"></i><i class="tick" style="left:531px"></i><i class="tick" style="left:575px"></i><i class="tick" style="left:618px"></i><i class="tick" style="left:662px"></i><i class="tick" style="left:705px"></i><i class="tick" style="left:749px"></i><i class="tick" style="left:792px"></i><i class="tick" style="left:836px"></i><i class="tick" style="left:879px"></i><i class="tick" style="left:923px"></i><i class="tick" style="left:966px"></i><i class="tick" style="left:1010px"></i><i class="tick" style="left:1053px"></i><i class="tick" style="left:1097px"></i><i class="tick" style="left:1140px"></i><i class="tick" style="left:1184px"></i><span class="yr t14 b" style="left:96px">'78</span><span class="yr t14 b" style="left:357px">'84</span><span class="yr t14 b" style="left:618px">'90</span><span class="yr t14 b" style="left:879px">'96</span><span class="yr t14 b" style="left:1140px">'02</span>
+<div class="mk" style="left:205px"><i class="p0 " aria-hidden="true"></i><i class="stem"></i></div><div class="mk" style="left:335px"><i class="p1 " aria-hidden="true"></i><i class="stem"></i></div><div class="mk" style="left:488px"><i class="p0 " aria-hidden="true"></i><i class="stem"></i></div><div class="mk" style="left:575px"><i class="p2 " aria-hidden="true"></i><i class="stem"></i></div><div class="mk" style="left:727px"><i class="p1 " aria-hidden="true"></i><i class="stem"></i></div><div class="mk" style="left:836px"><i class="p0 " aria-hidden="true"></i><i class="stem"></i></div><div class="mk" style="left:945px"><i class="p2 " aria-hidden="true"></i><i class="stem"></i></div><div class="mk" style="left:1110px"><i class="p2 " aria-hidden="true"></i><i class="stem"></i></div><div class="mk" style="left:1167px"><i class="p0 " aria-hidden="true"></i><i class="stem"></i></div>
+<div class="play" style="left:1110px"></div>
+<div class="abs row g8" style="left:96px;top:384px"><span class="btn sm" style="width:40px;padding:0"><i class="p7 " aria-hidden="true"></i></span><span class="btn sm pressed" style="width:40px;padding:0"><i class="p8 " aria-hidden="true"></i></span><span class="btn sm" style="width:40px;padding:0"><i class="p9 " aria-hidden="true"></i></span><span class="t14" style="color:var(--clay);margin-left:8px">Left and Right step between marks</span></div>
+<div class="panel abs" style="left:96px;top:432px;width:664px;height:160px;padding:24px">
+  <div class="col g8">
+    <span class="t14 b caps mut">Day 8,250 · Spring 2001</span>
+    <span class="t24 b">You missed this.</span>
+    <span class="t16" style="max-width:560px">Something changed at the bank that week. <i class="blk" style="background:var(--ink);width:5.5em"></i> The paper only gave you a name.</span>
+  </div>
+</div>
+<div class="abs col g8" style="left:792px;top:432px;width:392px;height:160px;background:var(--night);border:2px solid var(--sky);padding:24px;justify-content:center">
+  <div class="row g8"><i class="p5 " aria-hidden="true"></i><span class="t14 b caps" style="color:var(--sky)">Old Rook</span></div>
+  <span class="t20" style="color:var(--cream)">You were so careful. That was always the plan.</span>
+</div>
+<span class="abs btn primary" style="right:96px;bottom:48px;height:56px;width:260px;font-size:20px">See your legacy</span>
+<span class="abs btn tertiary" style="left:96px;bottom:60px;color:var(--cream);text-decoration-color:var(--clay)">Skip to the end</span>
+
+</div>
+<footer class="notes">
+<div><h2>What it does</h2><ul>
+<li>After a game over. The life plays back as a tape. Marks show the choices, the omens you saw, and the omens you missed.</li>
+<li>It shows the trail, never all of it. Hidden words stay hidden. The cause is named, not explained.</li>
+<li>Step with Left and Right. Space plays. See your legacy goes on.</li></ul></div>
+<div><h2>Tone</h2><ul>
+<li>The Game Master gets the last word, in the cold box. It does not gloat. It states what happened.</li>
+<li>No score here. The score is in the legacy page.</li>
+<li>Missed omens use a hollow shape so the player learns to look. Not colour alone.</li></ul></div>
+<div><h2>Rules used</h2><ul>
+<li>6 Hierarchy: one selected mark and one card. All other marks stay small and quiet.</li>
+<li>9 Quiet the rest: the tape and ticks use the dim clay, not ink.</li>
+<li>35 Not colour alone: three mark shapes.</li>
+<li>13 One primary: See your legacy.</li></ul></div></footer>
+</main></body></html>

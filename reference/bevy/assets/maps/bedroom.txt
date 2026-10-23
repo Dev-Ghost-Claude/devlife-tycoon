@@ -1,0 +1,9 @@
+# Your bedroom, 1978. One character is one 1 m tile; the top row is against the north wall.
+# B  bed   K  bedside crate, bookshelf   D  desk   R  records   c  chair   P  plant
+# h  magazines   s  clothes heap   r  rug (walkable)
+# E  door out (in the west wall)   @  where you appear
+BKKDDR
+Bh.c.P
+Brrrr.
+srrrr.
+E@....

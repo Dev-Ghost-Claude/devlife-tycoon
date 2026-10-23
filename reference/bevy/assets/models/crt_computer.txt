@@ -1,0 +1,42 @@
+# A beige home computer with a CRT monitor, keyboard in front. Sits on a table top.
+palette
+b = #d8cfb8
+s = #b8ae96
+g = #2f3a34
+k = #6d675c
+layer
+.bbbbb.
+.bbbbb.
+.bbbbb.
+.......
+kkkkkkk
+layer
+.bbbbb.
+.bbbbb.
+.bbbbb.
+.......
+.......
+layer
+.sssss.
+.bbbbb.
+.bgggb.
+.......
+.......
+layer
+.sssss.
+.bbbbb.
+.bgggb.
+.......
+.......
+layer
+.sssss.
+.bbbbb.
+.bgggb.
+.......
+.......
+layer
+.sssss.
+.bbbbb.
+.bbbbb.
+.......
+.......

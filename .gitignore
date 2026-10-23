@@ -5,5 +5,14 @@ design/private/
 private/
 crates/private-*/
 
+# Private instructions for AI agents; they stay on this Mac.
+CLAUDE.local.md
+AGENTS.md
+
 # Local test output and OS clutter.
 .DS_Store
+.godot/
+bin/
+obj/
+*.user
+.mono/

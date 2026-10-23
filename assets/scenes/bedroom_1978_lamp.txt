@@ -1,0 +1,19 @@
+# The 1978 bedroom with the desk lamp switched on (bedroom_1978.txt plus desk_lamp_on.txt).
+# Tile (col, row) sits at x = 4 + col*24, z = 4 + row*24 (walls 3 thick + 1-voxel gap); floor surface y = 8.
+scene
+size fine
+model ../models/bedroom_floor.txt at 0 0 0
+model ../models/bedroom_walls.txt at 0 8 0
+model ../models/landing_stairs.txt at 3 0 124
+model ../models/bed_1978.txt at 4 8 4
+model ../models/bedside_crate.txt at 28 8 4
+model ../models/bookshelf_1978.txt at 52 8 4
+model ../models/desk_1978.txt at 76 8 4
+model ../models/record_player.txt at 124 8 4
+model ../models/magazines.txt at 28 8 28
+model ../models/chair_1978.txt at 76 8 28
+model ../models/plant_1978.txt at 124 8 28
+model ../models/rug_1978.txt at 28 8 52
+model ../models/clothes_heap.txt at 4 8 76
+model ../models/computer_1978.txt at 81 26 5
+model ../models/desk_lamp_on.txt at 76 8 4

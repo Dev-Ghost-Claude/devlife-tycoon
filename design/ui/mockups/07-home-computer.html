@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>07 Home computer (bedroom era)</title>
+<meta name="viewport" content="width=1330">
+<style>@font-face{font-family:"Source Sans 3";font-weight:600;font-style:normal;src:url("../../../assets/fonts/SourceSans3-Semibold.ttf") format("truetype"),local("Source Sans 3 Semibold"),local("SourceSans3-Semibold");}
+@font-face{font-family:"Source Sans 3";font-weight:700;font-style:normal;src:url("../../../assets/fonts/SourceSans3-Bold.ttf") format("truetype"),local("Source Sans 3 Bold"),local("SourceSans3-Bold");}
+/* ===== DEVLIFE TYCOON  UI mockup base  (bedroom-era skin "Beige") =====
+   Palette: 16 fixed colours, like a home computer. Every colour on screen comes from this list.
+   Size unit: 1 canvas pixel (640x360) = 2 CSS px in this 1280x720 frame. All sizes below are whole canvas pixels.
+   Spacing scale (CSS px): 4 8 12 16 24 32 48 64 96.  Type scale: 14 16 20 24 30 36 48.  Weights: 600 and 700 only.
+   Depth: light from above. Raised = light top edge + hard shadow below. Inset = dark top edge. No blur anywhere. */
+:root{
+  --void:#1C1714; --ink:#2B2420; --umber:#52463D; --taupe:#6B5F55; --clay:#B8AE96; --putty:#D4CAB0; --plastic:#E8E0CC; --cream:#F5F1EA;
+  --rust-d:#8A3A22; --rust:#A84E33; --salmon:#E09A78; --mustard:#D9A93A; --moss:#6B9148; --denim:#35618A; --sky:#9FC7D8; --night:#232B4A;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px; --s9:96px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#120E0C}
+body{min-height:100vh;color:var(--putty);font:600 16px/24px "Source Sans 3","Source Sans Pro",system-ui,-apple-system,"Helvetica Neue",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--sky);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+.stage{width:1280px;margin:0 auto;padding:24px 0 48px}
+.stage:target{padding:0}.stage:target .meta,.stage:target .notes{display:none}
+.meta{display:flex;justify-content:space-between;align-items:baseline;gap:24px;margin-bottom:12px}
+.meta h1{font:700 20px/28px "Source Sans 3",sans-serif;color:var(--cream)}
+.meta p{font:600 14px/20px "Source Sans 3",sans-serif;color:var(--clay);max-width:640px;text-align:right}
+.frame{width:1280px;height:720px;position:relative;overflow:hidden;background:var(--void);color:var(--ink);box-shadow:0 0 0 2px #3A302A;font-variant-numeric:tabular-nums}
+.notes{margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;font:600 14px/20px "Source Sans 3",sans-serif;color:var(--putty)}
+.notes h2{font:700 14px/20px "Source Sans 3",sans-serif;color:var(--cream);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.notes ul{list-style:none} .notes li{padding-left:12px;position:relative;margin-bottom:4px} .notes li::before{content:"";position:absolute;left:0;top:8px;width:4px;height:4px;background:var(--mustard)}
+.abs{position:absolute} .fill{position:absolute;inset:0}
+.row{display:flex;align-items:center} .col{display:flex;flex-direction:column}
+.g4{gap:4px}.g8{gap:8px}.g12{gap:12px}.g16{gap:16px}.g24{gap:24px}
+img,i.px{image-rendering:pixelated}
+
+/* ---- type ---- */
+.t14{font-size:14px;line-height:20px}.t16{font-size:16px;line-height:24px}.t20{font-size:20px;line-height:28px}.t24{font-size:24px;line-height:32px}
+.t30{font-size:30px;line-height:36px}.t36{font-size:36px;line-height:40px}.t48{font-size:48px;line-height:48px}
+.b{font-weight:700}.mut{color:var(--taupe)}.caps{text-transform:uppercase;letter-spacing:.08em}
+
+/* ---- depth (hard shadows only) ---- */
+.e1{box-shadow:0 2px 0 var(--ink)} .e2{box-shadow:0 4px 0 var(--ink)} .e3{box-shadow:0 6px 0 var(--ink)}
+.panel{background:var(--plastic);border:2px solid var(--ink);box-shadow:inset 0 2px 0 var(--cream),inset 0 -2px 0 var(--putty),0 4px 0 var(--ink);color:var(--ink)}
+.panel.modal{box-shadow:inset 0 2px 0 var(--cream),inset 0 -2px 0 var(--putty),0 6px 0 var(--ink)}
+.well{background:var(--cream);border:2px solid var(--ink);box-shadow:inset 0 2px 0 var(--putty)}
+.dark{background:var(--ink);border:2px solid var(--ink);color:var(--cream)}
+.chip{display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 8px;background:var(--cream);border:2px solid var(--ink);box-shadow:inset 0 2px 0 var(--putty);font-size:14px;line-height:1;font-weight:700;color:var(--ink);white-space:nowrap}
+.key{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;padding:0 8px;background:var(--cream);color:var(--ink);border:2px solid var(--ink);box-shadow:0 2px 0 var(--ink);font-size:14px;line-height:1;font-weight:700}
+
+/* ---- buttons: a pyramid. primary = rust, secondary = plastic, tertiary = underlined text ---- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 24px;border:2px solid var(--ink);background:var(--plastic);color:var(--ink);
+  box-shadow:inset 0 2px 0 var(--cream),inset 0 -2px 0 var(--putty),0 2px 0 var(--ink);font-weight:700;font-size:20px;line-height:1;white-space:nowrap}
+.btn.primary{background:var(--rust);color:var(--cream);box-shadow:inset 0 2px 0 var(--salmon),inset 0 -4px 0 var(--rust-d),0 2px 0 var(--ink)}
+.btn.danger{background:var(--rust-d);color:var(--cream);box-shadow:inset 0 2px 0 var(--rust),inset 0 -4px 0 var(--ink),0 2px 0 var(--ink)}
+.btn.sm{height:32px;padding:0 12px;font-size:16px}
+.btn.block{display:flex;width:100%}
+.btn.pressed{box-shadow:inset 0 2px 0 var(--putty),0 0 0 var(--ink);transform:translateY(2px)}
+.btn.tertiary{height:auto;padding:4px 0;border:0;background:none;box-shadow:none;color:var(--ink);font-weight:700;font-size:16px;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;text-decoration-color:var(--taupe)}
+.focus{outline:2px solid var(--ink);outline-offset:4px}
+.focus-dark{outline:2px solid var(--mustard);outline-offset:4px}
+
+/* ---- meters: lit LED segments in a dark well. count is the signal, colour is a bonus ---- */
+.seg{display:inline-flex;gap:2px;padding:4px;background:var(--ink);border:2px solid var(--ink);box-shadow:0 2px 0 var(--cream)}
+.seg i{display:block;width:10px;height:16px;background:var(--umber)} .seg i.on{background:var(--moss)}
+.seg.low i.on{background:var(--salmon)}
+.seg i.ghost{background:repeating-conic-gradient(var(--salmon) 0 25%,var(--umber) 0 50%) 0 0/4px 4px}
+.pip{display:inline-block;width:8px;height:8px;background:var(--umber)} .pip.on{background:var(--denim)}
+
+/* ---- dithered glitch glyphs, used in storyteller text ---- */
+.blk{display:inline-block;width:.5em;height:.78em;margin:0 2px;vertical-align:-.06em}
+.p0{width:64px;height:64px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABlUlEQVR42sWXsU7EMAyGnejegBfo0ImOSKd7gRuQyt6F1+jG1EfhEaBi4AXQSYzXqUNnpA4MzGFAPuVSx7HTSnhMHf+fHTt3ASCsKgsHG1sspqUcn25vNoXgYtrYpq0gUDxmltu8FiIlngRYAyERXwD4m7phzoYIxTEWFYetQAqiKgtHrVHi2UcQg6jKwvVtA33bXK1pxEUAMYi+bS5rCKEVBwDYSZrQt0N9hL5e+iHQx+v71b5VR0B1MQpQRn3LHkNuIwehjWW1c7sWKpwmmyuurUIMwqzN/FAfs2G6YZaN4cPzW7SbKXHOf9ED53EyKef93V6VmcS/G2Y4j5Ox8M+2q8rCnT5PPK2yAv5RRL/9VcoZnIIUBNrL4322aHhM53Eyxr8HpBAUiFTYFxf/GKUy1YizV3GqvBSEVjzUuADgOGohtOI4frhmYv/fNf2guRt8cbIHQoctjYptuD+WXBXC2y7lG0vMSJ5TseAIkfrOVdVo3nWavuCyVgNoLitJ1tkAqWpIs97sxVuVhfv5/nLUA0Vqv90V96J6ofBsAAAAAElFTkSuQmCC) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:block;flex:none;}
+.p1{width:24px;height:30px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAPCAYAAADQ4S5JAAAAcklEQVR42mNkwAG0VRT+I/Ov3nnAyMDAwMCCS7FDrgaq4GSG/1fvPGBkIkoxEmAiRvGByTfgTmIiRjGynxiJcQayZiYGEgEjrmBEtxHmD0ZiQgmrp4lRTDCU0BVj2EBIMdZghYU7NsUYaQmXqUSlTlwAAHjBS/h9Ac2SAAAAAElFTkSuQmCC) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p2{width:26px;height:26px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAAo0lEQVR42mNkwAK0VRT+w9hX7zxgRJdnwaZ4XasUXCyomuE/umYWZA0wxTIeG+Ca1jEEwDXDNDJi0/BkRwBcEzI/qPoZw9U7DxhRnAdTcH7pTyRRCN8wmh0uwgizBd0GdIUwflD1MwYmBjIAeZqu3nnAGFT9jOHJjgB4qMH8hEzDnIYRELBAwOYXZMCILZ6QQw+mAWYLiibcKeIZRnJiJCftAQATJWfcELuJMgAAAABJRU5ErkJggg==) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p3{width:26px;height:26px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAAf0lEQVR42mNgwAG0VRT+MxACyIq0VRT+31xp9R9dDMZmggmsa5XCaTpOeWTTb660gmNstjJiMxEdBFU/Y7h65wEjiiaYKTANMh4bGJ7sCMDQyMDAwHD1zgNGRlym4wJB1c+w24RLMdwmcvzEhK4BZiKyBoLBTQyfrBTBQE7aAwCsZWyME9zl1gAAAABJRU5ErkJggg==) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p4{width:14px;height:14px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAHElEQVR42mPUVlH4zwAFV+88YETmMzHgAYNOEgAQRwV8PvC9xwAAAABJRU5ErkJggg==) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p5{width:14px;height:14px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAM0lEQVR42mPQVlH4z4ADMDEwMDBoqyj8x6aICZmDrogRn7Es2ASv3nnAiCEJE0SxB5exAEU+DzRci4hgAAAAAElFTkSuQmCC) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p6{width:16px;height:14px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAHCAYAAAA1WQxeAAAANElEQVR42mPQVlH4z4AE0PlM2ASR+Uy4dML4jOgS6IAJmXP1zgNGdD4TPkkGQg5kYGBgAACc5xcwK8THCAAAAABJRU5ErkJggg==) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.p7{width:18px;height:18px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAXklEQVR42mNkQALaKgr/Yeyrdx4wwtiMyAp6u8rgGorLulAUMmirKPzfsW7af20VBTiG8RkYGBiYGIgAjOjWoIPisi5Mk2ydQzAUEmUdhqLDe9dgugk9fNDB1TsPGAG6RiOXFC+HqgAAAABJRU5ErkJggg==) 0 0/100% 100% no-repeat;image-rendering:pixelated;display:inline-block;flex:none;}
+.d25i{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAD0lEQVR42mPQVlH4z4AMABT/AW98pQM3AAAAAElFTkSuQmCC) 0 0/4px 4px;image-rendering:pixelated}.flipx{transform:scaleX(-1)}
+
+.desk{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAG0lEQVR42mM0Tez6/+7UAQamd6cOMAiZOTAAAFCBB5vOEZjVAAAAAElFTkSuQmCC) 0 0/4px 4px;image-rendering:pixelated}
+.win{position:absolute;background:var(--plastic);border:2px solid var(--ink);box-shadow:inset 0 2px 0 var(--cream),0 4px 0 var(--ink);color:var(--ink)}
+.win .tb{height:28px;border-bottom:2px solid var(--ink);background:repeating-linear-gradient(to bottom,var(--ink) 0 2px,var(--plastic) 2px 6px);display:flex;align-items:center;justify-content:center;position:relative}
+.win .tb span{background:var(--plastic);padding:0 12px;font:700 14px/20px "Source Sans 3",sans-serif}
+.win .tb i{position:absolute;left:8px;top:5px;width:14px;height:14px;border:2px solid var(--ink);background:var(--plastic)}
+.tab{display:inline-flex;align-items:center;height:32px;padding:0 12px;font-size:14px;font-weight:700;border:2px solid var(--ink);border-bottom:0;background:var(--putty);color:var(--ink)}
+.tab.on{background:var(--cream);height:36px;position:relative;top:2px}
+.ad{display:flex;align-items:center;justify-content:space-between;gap:8px;height:60px;padding:0 12px}
+.ad.sel{background:var(--ink);color:var(--cream)} .ad.sel .mut{color:var(--putty)}
+.scan{background:repeating-linear-gradient(to bottom,rgba(28,23,20,.08) 0 2px,transparent 2px 4px)}
+.knob{width:32px;height:32px;background:var(--plastic);border:2px solid var(--ink);box-shadow:inset 0 2px 0 var(--cream),inset 0 -2px 0 var(--putty),0 2px 0 var(--ink);position:relative}
+.knob::after{content:"";position:absolute;left:12px;top:4px;width:4px;height:10px;background:var(--ink)}
+</style></head>
+<body><main class="stage" id="frame">
+<header class="meta"><div><h1>07 Home computer (bedroom era)</h1><a href="index.html">All mockups</a></div><p>You lean in to the monitor. The era skin is the frame and the windows. The HUD stays outside it. The primary action is one button.</p></header>
+<div class="frame">
+
+<div class="fill d25i"></div>
+<div class="panel abs row g12" style="left:16px;top:16px;padding:12px;width:272px">
+  <div class="well" style="width:72px;height:72px;padding:2px;flex:none"><i class="p0 " style="" role="img" aria-label="fox-portrait"></i></div>
+  <div class="col g8" style="flex:1">
+    <div class="row g8"><i class="p1 " aria-hidden="true"></i><span class="seg" role="img" aria-label="Stamina 6 of 10"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div>
+    <div class="row g8"><i class="p2 " aria-hidden="true"></i><span class="t20 b" style="letter-spacing:.01em">$12.50</span></div>
+  </div></div>
+<div class="panel abs col g4" style="right:16px;top:16px;padding:12px 16px;width:248px">
+  <div class="row" style="justify-content:space-between">
+    <div class="row g8"><i class="p3 " aria-hidden="true"></i><span class="t30 b" style="">08:30</span></div>
+    <div class="row g4"><span class="btn sm " style="width:28px;height:28px;padding:0"><i class="p4 " aria-hidden="true"></i></span><span class="btn sm pressed" style="width:28px;height:28px;padding:0"><i class="p5 " aria-hidden="true"></i></span><span class="btn sm " style="width:28px;height:28px;padding:0"><i class="p6 " aria-hidden="true"></i></span></div>
+  </div>
+  <div class="t14 mut">Mon 12 Sep 1978</div></div>
+<div class="abs" style="left:216px;top:124px;width:848px;height:576px;background:var(--plastic);border:2px solid var(--ink);box-shadow:inset 0 4px 0 var(--cream),inset 0 -4px 0 var(--putty),0 6px 0 var(--ink)">
+  <div class="abs" style="left:34px;top:22px;width:776px;height:480px;background:var(--ink);box-shadow:inset 0 4px 0 var(--void),0 2px 0 var(--cream)"></div>
+  <div class="abs desk" style="left:42px;top:30px;width:760px;height:464px;clip-path:polygon(0px 16px,4px 16px,4px 12px,8px 12px,8px 8px,12px 8px,12px 4px,16px 4px,16px 0px,744px 0px,744px 4px,748px 4px,748px 8px,752px 8px,752px 12px,756px 12px,756px 16px,760px 16px,760px 448px,756px 448px,756px 452px,752px 452px,752px 456px,748px 456px,748px 460px,744px 460px,744px 464px,16px 464px,16px 460px,12px 460px,12px 456px,8px 456px,8px 452px,4px 452px,4px 448px,0px 448px)"></div>
+  <div class="abs" style="left:42px;top:30px;width:760px;height:464px;clip-path:polygon(0px 16px,4px 16px,4px 12px,8px 12px,8px 8px,12px 8px,12px 4px,16px 4px,16px 0px,744px 0px,744px 4px,748px 4px,748px 8px,752px 8px,752px 12px,756px 12px,756px 16px,760px 16px,760px 448px,756px 448px,756px 452px,752px 452px,752px 456px,748px 456px,748px 460px,744px 460px,744px 464px,16px 464px,16px 460px,12px 460px,12px 456px,8px 456px,8px 452px,4px 452px,4px 448px,0px 448px);overflow:hidden">
+    <div class="abs row" style="left:0;right:0;top:0;height:28px;background:var(--cream);border-bottom:2px solid var(--ink);padding:0 16px;justify-content:space-between">
+      <div class="row g24 t14 b"><span>Pages</span><span class="mut">Tape</span><span class="mut">Notes</span><span class="mut">Help</span></div><span class="t14 b">08:30</span>
+    </div>
+    <div class="win" style="left:24px;top:48px;width:520px;height:376px">
+      <div class="tb"><i></i><span>Pages: Odd jobs wanted</span></div>
+      <div class="row g4" style="padding:8px 12px 0;border-bottom:2px solid var(--ink);align-items:flex-end;height:44px"><span class="tab on">100 Jobs</span><span class="tab">200 News</span><span class="tab">300 Shops</span></div>
+      <div class="row" style="align-items:stretch;padding:12px;gap:16px">
+        <div class="col" style="width:268px;background:var(--cream);border:2px solid var(--ink);box-shadow:inset 0 2px 0 var(--putty)">
+          <div class="ad"><div class="col"><span class="t16 b">Pizza delivery</span><span class="t14 mut">Pike's · evenings · $2.50/h</span></div><span class="row" style="gap:0"><i class="p1 " aria-hidden="true"></i><i class="p1 " aria-hidden="true"></i><i class="p1 " aria-hidden="true"></i></span></div>
+          <div class="ad"><div class="col"><span class="t16 b">Paper round</span><span class="t14 mut">Mornings · $1.20/h</span></div><span class="row" style="gap:0"><i class="p1 " aria-hidden="true"></i><i class="p1 " aria-hidden="true"></i></span></div>
+          <div class="ad sel"><div class="col"><span class="t16 b">Shop help</span><span class="t14 mut">Byte Corner · weekends · $2.00/h</span></div><span class="row" style="gap:0"><i class="p1 " aria-hidden="true"></i></span></div>
+          <div class="ad"><div class="col"><span class="t16 b">Tutor wanted</span><span class="t14 mut">Needs Logic 2</span></div><i class="p7 " aria-hidden="true"></i></div>
+        </div>
+        <div class="col g8" style="flex:1">
+          <div class="col"><span class="t20 b">Shop help</span><span class="t14 mut">Byte Corner</span></div>
+          <div class="row g4" style="flex-wrap:wrap"><span class="chip"><i class="p2 " aria-hidden="true"></i>$2.00/h</span><span class="chip">Weekends</span></div>
+          <p class="t14" style="margin-top:4px">Dust the shelves. Fix the demo machines. Learn how the hardware works.</p>
+          <div style="flex:1"></div>
+          <span class="btn primary block" style="height:44px;font-size:16px">Call about it</span>
+        </div>
+      </div>
+    </div>
+    <div class="win" style="left:568px;top:84px;width:168px;height:128px">
+      <div class="tb"><i></i><span>Mail</span></div>
+      <div class="col g4" style="padding:16px 12px"><span class="t16 b">No mail yet.</span><span class="t14 mut">Nobody has your address. Yet.</span></div>
+    </div>
+    <div class="abs scan" style="left:0;top:0;right:0;bottom:0;pointer-events:none"></div>
+  </div>
+  <div class="abs row" style="left:42px;right:42px;top:518px;height:36px;justify-content:space-between">
+    <div class="col" style="gap:0;width:72px"><i style="height:8px;background:var(--rust)"></i><i style="height:8px;background:var(--mustard)"></i><i style="height:8px;background:var(--denim)"></i></div>
+    <div class="row g16"><i style="width:12px;height:12px;background:var(--mustard);border:2px solid var(--ink);display:block"></i><span class="knob"></span><span class="knob"></span></div>
+  </div>
+</div>
+<div class="abs row g12" style="left:16px;bottom:16px;color:var(--cream)"><span class="key">Esc</span><span class="t16 b">Lean back</span></div>
+
+</div>
+<footer class="notes">
+<div><h2>Stable core (never re-skinned)</h2><ul>
+<li>The HUD stays: time, stamina, money. They sit outside the monitor.</li>
+<li>Esc or a click outside leans back. Time keeps running while you read.</li>
+<li>Icons keep their meaning: bolt = stamina cost, lock = a gate you cannot pass yet.</li></ul></div>
+<div><h2>Era skin (bedroom, 1978)</h2><ul>
+<li>Beige monitor, stepped CRT corners, scan lines, striped window title bars.</li>
+<li>Teletext-style page numbers: 100 Jobs, 200 News, 300 Shops. It can only read pages.</li>
+<li>Later eras swap this whole frame: CRT green, glossy 2000s, flat. Same layout slots.</li></ul></div>
+<div><h2>Rules used</h2><ul>
+<li>13 One primary: Call about it. Everything else is quiet.</li>
+<li>10 Labels last: bolts show cost, a lock shows the gate. Pay reads as $2.00/h.</li>
+<li>48 Empty state: Mail says why it is empty.</li>
+<li>49 Fewer borders: list rows use space and an inverted bar, not lines.</li></ul></div></footer>
+</main></body></html>

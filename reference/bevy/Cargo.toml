@@ -1,0 +1,18 @@
+[package]
+name = "bevy-game"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+bevy = "0.20"
+
+# The memory cap reads the process footprint and exits without clean-up (src/memguard.rs).
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+# Fast dev builds: optimise dependencies, keep our own code quick to compile.
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
